@@ -429,7 +429,7 @@ input[type="text"]:focus,textarea:focus{outline:none;border-color:var(--focus);b
 <script>
 (function(){
 'use strict';
-var VERSION='1.2';
+var VERSION='1.3';
 var KEY='happy-values-worksheet.v1';
 /* 우리 반 결과판(Supabase classroom-board-test, hv_submit 함수). 공개용 키라 페이지에 두어도 됨 */
 var SYNC_URL='https://fsijcdsyewwuehnxwoyr.supabase.co/rest/v1/rpc/hv_submit';
@@ -868,7 +868,9 @@ function summaryText(){
 }
 
 /* ---------- 완성 카드(캔버스) ---------- */
-var K={W:1080,P:64,paper:'#fbfbf7',grid:'#efefe9',ink:'#27272c',soft:'#5c5c66',faint:'#a0a0a8',line:'#d9d9d2',white:'#ffffff',
+/* 학습지처럼 2단으로 배치해 세로 길이를 줄이고(패들렛 등에서 화면에 맞춰 줄여도 글자가 읽히게),
+   논리 크기 1200px를 S배(2배)로 그려 2400px 폭 이미지로 저장 */
+var K={W:1200,P:48,G:28,S:2,paper:'#fbfbf7',grid:'#efefe9',ink:'#27272c',soft:'#5c5c66',faint:'#a0a0a8',line:'#d9d9d2',white:'#ffffff',
   coral:'#e8766a',coralSoft:'#fde9e6',coralInk:'#b94d42',green:'#7fc283',greenSoft:'#e6f4e6',greenInk:'#3b8241',
   blue:'#5f93d6',blueSoft:'#e4eefa',blueInk:'#376bb0',yellow:'#ecd56a',yellowSoft:'#fbf5d6',yellowInk:'#8a6f0c'};
 var FD='"Jua", "Gowun Dodum", sans-serif', FB='"Gowun Dodum", "Malgun Gothic", sans-serif';
@@ -896,10 +898,17 @@ function text(ctx,str,x,y,maxW,lh,color,draw,align){
   return y+lines.length*lh;
 }
 function rr(ctx,x,y,w,h,r){ r=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
-function box(ctx,x,y,w,h,fill,stroke,r){ rr(ctx,x,y,w,h,r); ctx.fillStyle=fill; ctx.fill(); if(stroke){ ctx.lineWidth=2; ctx.strokeStyle=stroke; ctx.stroke(); } }
+function box(ctx,x,y,w,h,fill,stroke,r){ rr(ctx,x,y,w,h,r); ctx.fillStyle=fill; ctx.fill(); if(stroke){ ctx.lineWidth=1.6; ctx.strokeStyle=stroke; ctx.stroke(); } }
 function withBox(ctx,x,y,w,pad,fill,stroke,r,draw,inner){
   var h=(inner(ctx,x+pad,y+pad,w-2*pad,false)-(y+pad))+2*pad;
   if(draw){ box(ctx,x,y,w,h,fill,stroke,r); inner(ctx,x+pad,y+pad,w-2*pad,true); }
+  return y+h;
+}
+/* 한 줄에 나란히 놓인 상자들은 높이를 맞춤(종이 학습지처럼) */
+function rowBoxes(ctx,y,cols,draw){
+  var h=0;
+  cols.forEach(function(c){ var ch=(c.inner(ctx,c.x+c.pad,y+c.pad,c.w-2*c.pad,false)-(y+c.pad))+2*c.pad; h=Math.max(h,ch,c.min||0); });
+  if(draw) cols.forEach(function(c){ box(ctx,c.x,y,c.w,h,K.white,K.line,28); c.inner(ctx,c.x+c.pad,y+c.pad,c.w-2*c.pad,true); });
   return y+h;
 }
 function shape(ctx,kind,x,y,r){
@@ -911,134 +920,135 @@ function shape(ctx,kind,x,y,r){
   ctx.closePath(); ctx.fill();
 }
 function confettiRow(ctx,cx,y){
-  var step=36, x0=cx-(CONF.length-1)*step/2;
-  CONF.forEach(function(c,i){ ctx.globalAlpha=c[2]?0.42:0.9; ctx.fillStyle=K[c[1]]; shape(ctx,c[0],x0+i*step,y,10); });
+  var step=34, x0=cx-(CONF.length-1)*step/2;
+  CONF.forEach(function(c,i){ ctx.globalAlpha=c[2]?0.42:0.9; ctx.fillStyle=K[c[1]]; shape(ctx,c[0],x0+i*step,y,9); });
   ctx.globalAlpha=1;
 }
 function buntingRow(ctx,y){
-  var w=36,g=5,n=Math.floor((K.W-2*K.P+g)/(w+g)), x0=(K.W-(n*(w+g)-g))/2;
+  var w=34,g=5,n=Math.floor((K.W-2*K.P+g)/(w+g)), x0=(K.W-(n*(w+g)-g))/2;
   for(var i=0;i<n;i++){ var b=BUNT[i%BUNT.length]; ctx.globalAlpha=b[1]?0.4:0.85; ctx.fillStyle=K[b[0]];
-    var x=x0+i*(w+g); ctx.beginPath(); ctx.moveTo(x+w/2,y); ctx.lineTo(x+w,y+30); ctx.lineTo(x,y+30); ctx.closePath(); ctx.fill(); }
+    var x=x0+i*(w+g); ctx.beginPath(); ctx.moveTo(x+w/2,y); ctx.lineTo(x+w,y+28); ctx.lineTo(x,y+28); ctx.closePath(); ctx.fill(); }
   ctx.globalAlpha=1;
 }
-function check(ctx,x,y,color){ ctx.save(); ctx.strokeStyle=color; ctx.lineWidth=4; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.beginPath(); ctx.moveTo(x-8,y); ctx.lineTo(x-2,y+7); ctx.lineTo(x+10,y-7); ctx.stroke(); ctx.restore(); }
-function sectionHead(ctx,label,color,y,draw){
-  if(draw){ ctx.fillStyle=color; ctx.beginPath(); ctx.arc(K.P+18,y+26,18,0,Math.PI*2); ctx.fill(); }
-  ctx.font='36px '+FD;
-  var ny=text(ctx,label,K.P+52,y,K.W-2*K.P-52,52,K.ink,draw);
-  return Math.max(ny,y+52)+16;
+function check(ctx,x,y,color){ ctx.save(); ctx.strokeStyle=color; ctx.lineWidth=3.5; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.beginPath(); ctx.moveTo(x-7,y); ctx.lineTo(x-2,y+6); ctx.lineTo(x+9,y-6); ctx.stroke(); ctx.restore(); }
+function sectionHead(ctx,label,color,x,w,y,draw){
+  if(draw){ ctx.fillStyle=color; ctx.beginPath(); ctx.arc(x+15,y+22,15,0,Math.PI*2); ctx.fill(); }
+  ctx.font='31px '+FD;
+  var ny=text(ctx,label,x+44,y,w-44,44,K.ink,draw);
+  return Math.max(ny,y+44)+12;
 }
 function pills(ctx,d,pick,x,y,draw){
-  var h=58,padX=24,cx=x;
+  var h=52,padX=22,cx=x;
   [['a',d.a],['b',d.b]].forEach(function(s,i){
-    if(i===1){ ctx.font='24px '+FD; var vw=ctx.measureText('vs.').width;
-      if(draw){ ctx.fillStyle=K.faint; ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.fillText('vs.',cx+14,y+h/2); }
-      cx+=vw+28; }
-    ctx.font='30px '+FD;
-    var on=pick===s[0], tw=ctx.measureText(s[1]).width, pw=tw+padX*2+(on?30:0);
+    if(i===1){ ctx.font='22px '+FD; var vw=ctx.measureText('vs.').width;
+      if(draw){ ctx.fillStyle=K.faint; ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.fillText('vs.',cx+12,y+h/2); }
+      cx+=vw+24; }
+    ctx.font='28px '+FD;
+    var on=pick===s[0], tw=ctx.measureText(s[1]).width, pw=tw+padX*2+(on?28:0);
     if(draw){
       rr(ctx,cx,y,pw,h,h/2);
       ctx.fillStyle=on?(s[0]==='a'?K.coralSoft:K.blueSoft):K.white; ctx.fill();
-      ctx.lineWidth=on?3:2; ctx.strokeStyle=on?(s[0]==='a'?K.coral:K.blue):K.line; ctx.stroke();
-      var tx=cx+padX; if(on){ check(ctx,tx+9,y+h/2,s[0]==='a'?K.coralInk:K.blueInk); tx+=30; }
+      ctx.lineWidth=on?3:1.6; ctx.strokeStyle=on?(s[0]==='a'?K.coral:K.blue):K.line; ctx.stroke();
+      var tx=cx+padX; if(on){ check(ctx,tx+8,y+h/2,s[0]==='a'?K.coralInk:K.blueInk); tx+=28; }
       ctx.fillStyle=on?K.ink:K.faint; ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.fillText(s[1],tx,y+h/2+1);
     }
     cx+=pw;
   });
-  if(!pick&&draw){ ctx.font='22px '+FB; ctx.fillStyle=K.faint; ctx.textAlign='left'; ctx.fillText('(아직 고르지 않음)',cx+18,y+h/2); }
   return y+h;
 }
-function layout(ctx,img,draw){
-  var W=K.W,P=K.P,CW=W-2*P,y;
-  if(draw){
-    var H=ctx.canvas.height; ctx.fillStyle=K.paper; ctx.fillRect(0,0,W,H);
-    ctx.strokeStyle=K.grid; ctx.lineWidth=1; ctx.beginPath();
-    for(var gx=0.5;gx<W;gx+=32){ ctx.moveTo(gx,0); ctx.lineTo(gx,H); }
-    for(var gy=0.5;gy<H;gy+=32){ ctx.moveTo(0,gy); ctx.lineTo(W,gy); }
-    ctx.stroke();
-    confettiRow(ctx,W/2,46);
-  }
-  y=98;
-  ctx.font='58px '+FD; y=text(ctx,'행복한 삶을 위한 가치관 정립하기',W/2,y,CW,74,K.ink,draw,'center');
-  if(who()){ ctx.font='28px '+FB; y=text(ctx,who(),W/2,y+4,CW,40,K.soft,draw,'center'); }
-  y+=34;
-
-  y=sectionHead(ctx,'활동1. 내 삶의 우선순위 밸런스 게임',K.coral,y,draw);
-  DILEMMAS.forEach(function(d){
+function dilemmaInner(d){
+  return function(c,ix,iy,iw,dr){
     var st=S.d[d.id];
-    y=withBox(ctx,P,y,CW,28,K.white,K.line,34,draw,function(c,ix,iy,iw,dr){
-      c.font='21px '+FB; var yy=text(c,d.tag,ix,iy,iw,30,K.coralInk,dr);
-      yy=pills(c,d,st.pick,ix,yy+6,dr)+14;
-      c.font='24px '+FB; return text(c,'선택한 이유: '+(st.why.trim()||'—'),ix,yy,iw,38,K.ink,dr);
-    })+16;
-  });
-  var bon=BONUS.filter(function(d){ return S.d[d.id].pick; });
-  if(bon.length){
-    y=withBox(ctx,P,y,CW,26,K.white,K.line,30,draw,function(c,ix,iy,iw,dr){
-      c.font='21px '+FB; var yy=text(c,'선택 문항 (딜레마 상황 3~5)',ix,iy,iw,30,K.coralInk,dr);
-      bon.forEach(function(d){ var st=S.d[d.id];
-        c.font='26px '+FD; yy=text(c,d.tag.replace('딜레마 상황 ','')+'. '+d.a+' vs. '+d.b+'  →  '+pickName(d,st.pick),ix,yy+8,iw,38,K.ink,dr);
-        if(st.why.trim()){ c.font='22px '+FB; yy=text(c,st.why.trim(),ix,yy,iw,34,K.soft,dr); } });
-      return yy;
-    })+16;
-  }
-  y+=26;
-
-  y=sectionHead(ctx,'활동2. 자기 존중을 위한 나의 핵심 가치',K.green,y,draw);
-  (function(){
-    var gap=20, cw=(CW-2*gap)/3, pd=24;
-    function col(c,i,x,yy,w,dr){
-      var v=S.values[i];
-      c.font='20px '+FB; yy=text(c,'핵심 가치 '+(i+1),x,yy,w,28,K.greenInk,dr);
-      c.font='36px '+FD; yy=text(c,v?v.name:'—',x,yy+2,w,48,K.ink,dr)+8;
-      c.font='21px '+FB; return text(c,v?(v.story.trim()||'—'):'',x,yy,w,32,K.soft,dr);
-    }
-    var hs=[0,1,2].map(function(i){ return col(ctx,i,P+pd,y+pd,cw-2*pd,false)-(y+pd); });
-    var h=Math.max(150,Math.max.apply(null,hs))+2*pd;
-    if(draw) for(var i=0;i<3;i++){ var x=P+i*(cw+gap); box(ctx,x,y,cw,h,K.white,K.line,30); col(ctx,i,x+pd,y+pd,cw-2*pd,true); }
-    y+=h;
-  })();
-  y+=42;
-
-  y=sectionHead(ctx,'활동3. 핵심 가치가 충족된 행복한 삶',K.blue,y,draw);
-  y=withBox(ctx,P,y,CW,28,K.white,K.line,34,draw,function(c,ix,iy,iw,dr){
+    c.font='19px '+FB; var yy=text(c,d.tag+(st.pick?'':' · 아직 고르지 않음'),ix,iy,iw,28,K.coralInk,dr);
+    yy=pills(c,d,st.pick,ix,yy+6,dr)+12;
+    c.font='23px '+FB; return text(c,'선택한 이유: '+(st.why.trim()||'—'),ix,yy,iw,36,K.ink,dr);
+  };
+}
+function valueInner(i){
+  return function(c,ix,iy,iw,dr){
+    var v=S.values[i];
+    c.font='19px '+FB; var yy=text(c,'핵심 가치 '+(i+1),ix,iy,iw,28,K.greenInk,dr);
+    c.font='32px '+FD; yy=text(c,v?v.name:'—',ix,yy+2,iw,44,K.ink,dr)+6;
+    c.font='22px '+FB; return text(c,v?(v.story.trim()||'—'):'',ix,yy,iw,34,K.soft,dr);
+  };
+}
+function imageInner(img){
+  return function(c,ix,iy,iw,dr){
     var yy=iy;
     if(img){
-      var w0=img.naturalWidth||img.width, h0=img.naturalHeight||img.height, k=Math.min(iw/w0,560/h0), dw=w0*k, dh=h0*k, dx=ix+(iw-dw)/2;
-      if(dr){ c.save(); rr(c,dx,yy,dw,dh,20); c.clip(); c.drawImage(img,dx,yy,dw,dh); c.restore(); rr(c,dx,yy,dw,dh,20); c.lineWidth=2; c.strokeStyle=K.line; c.stroke(); }
-      yy+=dh+22;
-    } else { c.font='22px '+FB; yy=text(c,'(이미지 없음)',ix+iw/2,yy,iw,40,K.faint,dr,'center')+10; }
-    c.font='20px '+FB; yy=text(c,'이 이미지에 담긴 나의 행복한 삶',ix,yy,iw,30,K.blueInk,dr);
-    c.font='24px '+FB; return text(c,S.imgNote.trim()||'—',ix,yy+4,iw,38,K.ink,dr);
-  });
-  y+=42;
+      var w0=img.naturalWidth||img.width, h0=img.naturalHeight||img.height, k=Math.min(iw/w0,470/h0), dw=w0*k, dh=h0*k, dx=ix+(iw-dw)/2;
+      if(dr){ c.save(); c.imageSmoothingQuality='high'; rr(c,dx,yy,dw,dh,18); c.clip(); c.drawImage(img,dx,yy,dw,dh); c.restore();
+        rr(c,dx,yy,dw,dh,18); c.lineWidth=1.6; c.strokeStyle=K.line; c.stroke(); }
+      yy+=dh+18;
+    } else { c.font='20px '+FB; yy=text(c,'(이미지 없음)',ix+iw/2,yy,iw,40,K.faint,dr,'center')+8; }
+    c.font='19px '+FB; yy=text(c,'이 이미지에 담긴 나의 행복한 삶',ix,yy,iw,28,K.blueInk,dr);
+    c.font='23px '+FB; return text(c,S.imgNote.trim()||'—',ix,yy+4,iw,36,K.ink,dr);
+  };
+}
+function reflectInner(c,ix,iy,iw,dr){
+  c.font='19px '+FB; var yy=text(c,'배우고 느낀 점',ix,iy,iw,28,K.yellowInk,dr);
+  c.font='23px '+FB; yy=text(c,S.learn.trim()||'—',ix,yy+4,iw,36,K.ink,dr)+16;
+  if(dr){ c.save(); c.strokeStyle=K.line; c.lineWidth=1.6; c.setLineDash([5,7]); c.beginPath(); c.moveTo(ix,yy); c.lineTo(ix+iw,yy); c.stroke(); c.restore(); }
+  yy+=16;
+  c.font='19px '+FB; yy=text(c,'실천할 한 가지',ix,yy,iw,28,K.yellowInk,dr);
+  c.font='23px '+FB; return text(c,S.act.trim()||'—',ix,yy+4,iw,36,K.ink,dr);
+}
+function layout(ctx,img,draw){
+  var W=K.W,P=K.P,G=K.G,CW=W-2*P,half=(CW-G)/2,xL=P,xR=P+half+G,y;
+  if(draw){
+    var H=ctx.canvas.height/K.S; ctx.fillStyle=K.paper; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle=K.grid; ctx.lineWidth=0.6; ctx.beginPath();
+    for(var gx=0;gx<W;gx+=30){ ctx.moveTo(gx,0); ctx.lineTo(gx,H); }
+    for(var gy=0;gy<H;gy+=30){ ctx.moveTo(0,gy); ctx.lineTo(W,gy); }
+    ctx.stroke();
+    confettiRow(ctx,W/2,32);
+  }
+  y=76;
+  ctx.font='52px '+FD; y=text(ctx,'행복한 삶을 위한 가치관 정립하기',W/2,y,CW,66,K.ink,draw,'center');
+  if(who()){ ctx.font='25px '+FB; y=text(ctx,who(),W/2,y+2,CW,36,K.soft,draw,'center'); }
+  y+=24;
 
-  y=sectionHead(ctx,'오늘의 배우고 느낀 점, 실천 사항',K.yellow,y,draw);
-  y=withBox(ctx,P,y,CW,28,K.white,K.line,34,draw,function(c,ix,iy,iw,dr){
-    c.font='20px '+FB; var yy=text(c,'배우고 느낀 점',ix,iy,iw,30,K.yellowInk,dr);
-    c.font='24px '+FB; yy=text(c,S.learn.trim()||'—',ix,yy+4,iw,38,K.ink,dr)+18;
-    if(dr){ c.save(); c.strokeStyle=K.line; c.lineWidth=2; c.setLineDash([6,8]); c.beginPath(); c.moveTo(ix,yy); c.lineTo(ix+iw,yy); c.stroke(); c.restore(); }
-    yy+=18;
-    c.font='20px '+FB; yy=text(c,'실천할 한 가지',ix,yy,iw,30,K.yellowInk,dr);
-    c.font='24px '+FB; return text(c,S.act.trim()||'—',ix,yy+4,iw,38,K.ink,dr);
+  y=sectionHead(ctx,'활동1. 내 삶의 우선순위 밸런스 게임',K.coral,P,CW,y,draw);
+  y=rowBoxes(ctx,y,DILEMMAS.map(function(d,i){ return {x:i?xR:xL,w:half,pad:24,inner:dilemmaInner(d)}; }),draw);
+  var bon=BONUS.filter(function(d){ return S.d[d.id].pick; });
+  if(bon.length){
+    y=withBox(ctx,P,y+14,CW,22,K.white,K.line,26,draw,function(c,ix,iy,iw,dr){
+      c.font='19px '+FB; var yy=text(c,'선택 문항 (딜레마 상황 3~5)',ix,iy,iw,28,K.coralInk,dr);
+      bon.forEach(function(d){ var st=S.d[d.id];
+        c.font='24px '+FD; yy=text(c,d.tag.replace('딜레마 상황 ','')+'. '+d.a+' vs. '+d.b+'  →  '+pickName(d,st.pick),ix,yy+6,iw,34,K.ink,dr);
+        if(st.why.trim()){ c.font='20px '+FB; yy=text(c,st.why.trim(),ix,yy,iw,31,K.soft,dr); } });
+      return yy;
+    });
+  }
+  y+=32;
+
+  y=sectionHead(ctx,'활동2. 자기 존중을 위한 나의 핵심 가치',K.green,P,CW,y,draw);
+  var vw=(CW-2*G)/3;
+  y=rowBoxes(ctx,y,[0,1,2].map(function(i){ return {x:P+i*(vw+G),w:vw,pad:22,min:150,inner:valueInner(i)}; }),draw);
+  y+=32;
+
+  var hd=[['활동3. 핵심 가치가 충족된 행복한 삶',K.blue,xL],['오늘의 배우고 느낀 점, 실천 사항',K.yellow,xR]], hy=y;
+  hd.forEach(function(h){ hy=Math.max(hy,sectionHead(ctx,h[0],h[1],h[2],half,y,draw)); });
+  y=rowBoxes(ctx,hy,[{x:xL,w:half,pad:22,inner:imageInner(img)},{x:xR,w:half,pad:22,inner:reflectInner}],draw);
+  y+=24;
+
+  y=withBox(ctx,P,y,CW,26,K.yellowSoft,K.yellow,28,draw,function(c,ix,iy,iw,dr){
+    c.font='36px '+FD; return text(c,happySentence(),ix+iw/2,iy,iw,54,K.ink,dr,'center');
   });
   y+=30;
-
-  y=withBox(ctx,P,y,CW,32,K.yellowSoft,K.yellow,34,draw,function(c,ix,iy,iw,dr){
-    c.font='40px '+FD; return text(c,happySentence(),ix+iw/2,iy,iw,60,K.ink,dr,'center');
-  });
-  y+=40;
   if(draw) buntingRow(ctx,y);
-  y+=52;
-  ctx.font='22px '+FB; y=text(ctx,dateStr(),W/2,y,CW,30,K.faint,draw,'center');
-  return y+34;
+  y+=46;
+  ctx.font='19px '+FB; y=text(ctx,dateStr(),W/2,y,CW,26,K.faint,draw,'center');
+  return y+26;
 }
 function dateStr(){ var d=new Date(); return d.getFullYear()+'. '+(d.getMonth()+1)+'. '+d.getDate()+'.'; }
 function renderCard(img){
-  var c=document.createElement('canvas'); c.width=K.W; c.height=10;
-  var h=layout(c.getContext('2d'),img,false);
-  c.height=Math.ceil(h);
-  layout(c.getContext('2d'),img,true);
+  var c=document.createElement('canvas'); c.width=K.W*K.S; c.height=10;
+  var x=c.getContext('2d'); x.setTransform(K.S,0,0,K.S,0,0);
+  var h=layout(x,img,false);
+  c.height=Math.ceil(h*K.S);
+  x=c.getContext('2d'); x.setTransform(K.S,0,0,K.S,0,0);
+  layout(x,img,true);
   return c;
 }
 function fontsReady(str){
@@ -1050,12 +1060,17 @@ function loadImg(src){ return new Promise(function(res,rej){ var i=new Image(); 
 function buildCard(){
   var src=imageSource();
   var imgP=src==='photo'?loadImg(S.photo):Promise.resolve(src==='draw'?drawingCanvas():null);
-  var labels='행복한 삶을 위한 가치관 정립하기 활동1. 내 삶의 우선순위 밸런스 게임 활동2. 자기 존중을 위한 나의 핵심 가치 활동3. 핵심 가치가 충족된 행복한 삶 오늘의 배우고 느낀 점, 실천 사항 선택한 이유: 핵심 가치 0123456789 이 이미지에 담긴 나의 행복한 삶 선택 문항 (딜레마 상황 3~5) 실천할 한 가지 (아직 고르지 않음)(이미지 없음)—vs.→“”';
+  var labels='행복한 삶을 위한 가치관 정립하기 활동1. 내 삶의 우선순위 밸런스 게임 활동2. 자기 존중을 위한 나의 핵심 가치 활동3. 핵심 가치가 충족된 행복한 삶 오늘의 배우고 느낀 점, 실천 사항 선택한 이유: 핵심 가치 0123456789 이 이미지에 담긴 나의 행복한 삶 선택 문항 (딜레마 상황 3~5) 실천할 한 가지 · 아직 고르지 않음 (이미지 없음)—vs.→“”';
   return Promise.all([imgP.catch(function(){ return null; }),fontsReady(labels+summaryText()+dateStr())]).then(function(r){ return renderCard(r[0]); });
 }
+/* PNG가 너무 크면(사진이 들어간 경우 등) JPEG로 */
+function encodeCard(c){
+  return toBlob(c,'image/png').then(function(b){ return b.size>9000000?toBlob(c,'image/jpeg',0.92):b; });
+}
+function blobToDataURL(b){ return new Promise(function(res,rej){ var r=new FileReader(); r.onload=function(){ res(r.result); }; r.onerror=rej; r.readAsDataURL(b); }); }
 
 /* ---------- 완성 단계 ---------- */
-var cardSeq=0, lastCard=null;
+var cardSeq=0, lastBlob=null;
 function renderDone(){
   var m=missing(), box=$('missingBox'); box.hidden=false;
   if(m.length){
@@ -1065,15 +1080,21 @@ function renderDone(){
       '</ul><p class="mb-foot">비어 있어도 카드는 저장할 수 있어요.</p>';
   } else { box.className='missing ok'; box.innerHTML='<p class="mb-title">모든 칸을 다 채웠어요!</p>'; }
   var seq=++cardSeq, pv=$('cardPreview');
-  pv.innerHTML='<p class="muted">카드를 만들고 있어요…</p>'; $('saveImg').disabled=true; lastCard=null;
+  pv.innerHTML='<p class="muted">카드를 만들고 있어요…</p>'; $('saveImg').disabled=true; lastBlob=null;
   buildCard().then(function(c){
     if(seq!==cardSeq) return;
-    lastCard=c;
-    var img=new Image(); img.alt='나의 가치관 카드 미리보기'; img.src=c.toDataURL('image/png');
-    pv.innerHTML=''; pv.appendChild(img); $('saveImg').disabled=false;
+    return encodeCard(c).then(function(blob){
+      if(seq!==cardSeq) return;
+      lastBlob=blob;
+      return blobToDataURL(blob).then(function(url){  /* 길게 눌러 저장이 잘 되도록 data: 주소로 보여 줌 */
+        if(seq!==cardSeq) return;
+        var img=new Image(); img.alt='나의 가치관 카드 미리보기'; img.src=url;
+        pv.innerHTML=''; pv.appendChild(img); $('saveImg').disabled=false;
+      });
+    });
   }).catch(function(){ if(seq===cardSeq) pv.innerHTML='<p class="muted">카드를 만들지 못했어요. 다른 단계에 갔다가 다시 와 주세요.</p>'; });
 }
-function fileName(){ var w=who().replace(/[\\\/:*?"<>|\s]+/g,'_'); return '가치관카드'+(w?'_'+w:'')+'.png'; }
+function fileName(){ var w=who().replace(/[\\\/:*?"<>|\s]+/g,'_'); return '가치관카드'+(w?'_'+w:'')+(lastBlob&&lastBlob.type==='image/jpeg'?'.jpg':'.png'); }
 function inArtifact(){ return !!(window.claude&&typeof window.claude.use==='function'); }
 var dlPromise=null;
 function getDownloads(){
@@ -1081,11 +1102,11 @@ function getDownloads(){
   if(!dlPromise) dlPromise=Promise.resolve().then(function(){ return window.claude.use('downloads'); }).catch(function(){ return null; });
   return dlPromise;
 }
-function toBlob(c){ return new Promise(function(res,rej){ if(!c.toBlob) return rej(new Error('toBlob')); c.toBlob(function(b){ b?res(b):rej(new Error('blob')); },'image/png'); }); }
+function toBlob(c,type,q){ return new Promise(function(res,rej){ if(!c.toBlob) return rej(new Error('toBlob')); c.toBlob(function(b){ b?res(b):rej(new Error('blob')); },type||'image/png',q); }); }
 function saveImage(){
-  if(!lastCard) return;
+  if(!lastBlob) return;
   var btn=$('saveImg'), fname=fileName(); btn.disabled=true;
-  toBlob(lastCard).then(function(blob){
+  Promise.resolve(lastBlob).then(function(blob){
     return getDownloads().then(function(dl){
       if(dl) return dl.save({filename:fname,data:blob}).then(function(){ toast('카드 이미지를 저장했어요.'); },function(err){
         if(err&&err.code==='declined') return; toast('여기서는 바로 저장이 안 돼요. 카드 이미지를 길게 눌러 저장하세요.'); });

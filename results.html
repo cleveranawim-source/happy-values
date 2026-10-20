@@ -94,7 +94,10 @@ select{min-height:46px;border:1.5px solid var(--line);background:var(--card);bor
 .tag{font-size:14px;color:var(--coral-ink)}
 .card h3{font-size:clamp(24px,2.6vw,32px);margin-top:-6px}
 .card h3 .vsw{color:var(--ink-faint);font-size:.75em;margin:0 .2em}
-.small .card h3{font-size:22px}
+.small .card h3{font-size:clamp(22px,2.2vw,27px)}
+.small .scen{font-size:15px}
+.opt-head{font-family:var(--font-display);font-size:22px;margin:6px 0 12px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.opt-head small{font-family:var(--font-body);font-size:15px;color:var(--ink-soft)}
 .scen{color:var(--ink-soft);font-size:15.5px;line-height:1.5}
 .split-l{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
 .side{display:grid;gap:0}
@@ -173,8 +176,8 @@ h4{margin:14px 0 2px;font-size:16px;font-weight:400;color:var(--ink-soft)}
   <section class="sec" aria-labelledby="s1">
     <div class="sec-head" style="--c:var(--coral)"><span class="bd" aria-hidden="true"></span><h2 id="s1">활동1. 내 삶의 우선순위 밸런스 게임</h2></div>
     <div class="cards" id="mainD"></div>
-    <div id="bonusWrap" hidden>
-      <h3 class="note" style="font-family:var(--font-body);margin:4px 0 10px">빨리 끝낸 친구들이 해 본 밸런스 게임</h3>
+    <div id="bonusWrap">
+      <h3 class="opt-head">선택 문항 3~5 <small>먼저 끝낸 학생만 골라서, 참여 인원이 1·2번보다 적을 수 있어요</small></h3>
       <div class="cards small" id="bonusD"></div>
     </div>
   </section>
@@ -203,9 +206,9 @@ var DILEMMAS=[
   {id:'d2',tag:'딜레마 상황 2',a:'권력',b:'자율',text:'최상위 권력을 가질 수 있지만, 자신의 모든 신념을 버리고 다른 세력의 꼭두각시가 되어야 합니다.'}
 ];
 var BONUS=[
-  {id:'b1',tag:'더 해 보기 1',a:'안정',b:'도전',text:'평생 걱정 없는 안정된 직업을 가질 수 있지만, 가슴 뛰는 꿈은 포기해야 합니다.'},
-  {id:'b2',tag:'더 해 보기 2',a:'인정',b:'만족',text:'모두가 칭찬하지만 즐겁지 않은 일과, 아무도 몰라주지만 정말 즐거운 일 중 하나를 평생 해야 합니다.'},
-  {id:'b3',tag:'더 해 보기 3',a:'우정',b:'꿈',text:'꿈꾸던 해외 학교에 갈 수 있지만, 가장 친한 친구와는 다시 연락할 수 없게 됩니다.'}
+  {id:'b1',tag:'딜레마 상황 3',a:'안정',b:'도전',text:'평생 걱정 없는 안정된 직업을 가질 수 있지만, 가슴 뛰는 꿈은 포기해야 합니다.'},
+  {id:'b2',tag:'딜레마 상황 4',a:'인정',b:'만족',text:'모두가 대단하다고 칭찬하지만 나는 즐겁지 않은 일, 아무도 알아주지 않지만 나는 정말 즐거운 일 중 하나를 평생 해야 합니다.'},
+  {id:'b3',tag:'딜레마 상황 5',a:'우정',b:'꿈',text:'꿈꾸던 해외 학교에 장학생으로 갈 수 있지만, 가장 친한 친구와는 다시 연락할 수 없게 됩니다.'}
 ];
 var SHOW_VALUES=15;
 
@@ -235,9 +238,9 @@ function dilemmaCard(d,c,small){
   var bar=(a?'<span class="a" style="flex:'+a+' 1 0" title="'+esc(d.a+' '+a+'명 ('+pa+'%)')+'"></span>':'')+
           (b?'<span class="b" style="flex:'+b+' 1 0" title="'+esc(d.b+' '+b+'명 ('+pb+'%)')+'"></span>':'');
   return '<article class="card veilable'+(st.shown[d.id]?' shown':'')+'" data-id="'+d.id+'">'+
-    '<p class="tag">'+esc(d.tag)+'</p>'+
+    '<p class="tag">'+esc(d.tag)+(small?' · 선택':'')+'</p>'+
     '<h3>'+esc(d.a)+' <span class="vsw">vs.</span> '+esc(d.b)+'</h3>'+
-    (small?'':'<p class="scen">'+esc(d.text)+'</p>')+
+    '<p class="scen">'+esc(d.text)+'</p>'+
     '<div class="split-l">'+
       '<div class="side" style="--c:var(--chart-a)"><span class="nm"><i aria-hidden="true"></i>'+esc(d.a)+'</span><span class="num">'+a+'명 <small>'+(t?pa+'%':'')+'</small></span></div>'+
       '<div class="side r" style="--c:var(--chart-b)"><span class="nm">'+esc(d.b)+'<i aria-hidden="true"></i></span><span class="num">'+b+'명 <small>'+(t?pb+'%':'')+'</small></span></div>'+
@@ -255,9 +258,7 @@ function render(){
   $('boardTitle').textContent=(st.cls?clsName(st.cls):'전체 반')+' 결과판';
   $('empty').hidden=total>0;
   $('mainD').innerHTML=DILEMMAS.map(function(d){ return dilemmaCard(d,dl[d.id],false); }).join('');
-  var bon=BONUS.filter(function(d){ var c=dl[d.id]; return c&&(c.a+c.b)>0; });
-  $('bonusWrap').hidden=!bon.length;
-  $('bonusD').innerHTML=bon.map(function(d){ return dilemmaCard(d,dl[d.id],true); }).join('');
+  $('bonusD').innerHTML=BONUS.map(function(d){ return dilemmaCard(d,dl[d.id],true); }).join('');
 
   var wv=r.withValues||0, max=vals.length?vals[0].count:0, h='';
   $('valSub').textContent=wv?wv+'명이 가치 3개씩 골랐어요':'';
@@ -276,8 +277,8 @@ function render(){
 }
 function renderTable(r){
   var dl=r.dilemmas||{}, h='<h4>활동1. 밸런스 게임</h4><table><thead><tr><th>딜레마</th><th>선택</th><th class="n">학생 수</th><th class="n">비율</th></tr></thead><tbody>';
-  DILEMMAS.concat(BONUS).forEach(function(d){ var c=dl[d.id]||{a:0,b:0}, t=c.a+c.b; if(!t&&d.id.charAt(0)==='b') return;
-    h+='<tr><td rowspan="2">'+esc(d.a+' vs. '+d.b)+'</td><td>'+esc(d.a)+'</td><td class="n">'+c.a+'</td><td class="n">'+pct(c.a,t)+'%</td></tr>'+
+  DILEMMAS.concat(BONUS).forEach(function(d,i){ var c=dl[d.id]||{a:0,b:0}, t=c.a+c.b;
+    h+='<tr><td rowspan="2">'+(i+1)+'. '+esc(d.a+' vs. '+d.b)+(i>1?' (선택)':'')+'</td><td>'+esc(d.a)+'</td><td class="n">'+c.a+'</td><td class="n">'+pct(c.a,t)+'%</td></tr>'+
        '<tr><td>'+esc(d.b)+'</td><td class="n">'+c.b+'</td><td class="n">'+(t?100-pct(c.a,t):0)+'%</td></tr>'; });
   h+='</tbody></table><h4>활동2. 핵심 가치</h4><table><thead><tr><th class="n">순위</th><th>가치</th><th class="n">고른 학생</th><th class="n">1순위로 고름</th></tr></thead><tbody>';
   (r.values||[]).forEach(function(v,i){ h+='<tr><td class="n">'+(i+1)+'</td><td>'+esc(v.name)+'</td><td class="n">'+v.count+'</td><td class="n">'+v.first+'</td></tr>'; });

@@ -326,7 +326,7 @@ input[type="text"]:focus,textarea:focus{outline:none;border-color:var(--focus);b
     <p class="sync" data-sync hidden></p>
     <div class="stack" id="dilemmas"></div>
     <details class="bonus" id="bonusBox">
-      <summary><span>빨리 끝냈다면? 밸런스 게임 더 해 보기</span><small>선택</small></summary>
+      <summary><span>빨리 끝냈다면? 딜레마 상황 3~5 더 해 보기</span><small>선택</small></summary>
       <div class="stack" id="bonus"></div>
     </details>
     <div class="nav"><button class="btn ghost" type="button" data-go="0">← 처음 화면</button><button class="btn primary" type="button" data-go="2">다음: 핵심 가치 →</button></div>
@@ -429,7 +429,7 @@ input[type="text"]:focus,textarea:focus{outline:none;border-color:var(--focus);b
 <script>
 (function(){
 'use strict';
-var VERSION='1.1';
+var VERSION='1.2';
 var KEY='happy-values-worksheet.v1';
 /* 우리 반 결과판(Supabase classroom-board-test, hv_submit 함수). 공개용 키라 페이지에 두어도 됨 */
 var SYNC_URL='https://fsijcdsyewwuehnxwoyr.supabase.co/rest/v1/rpc/hv_submit';
@@ -445,13 +445,13 @@ var DILEMMAS=[
    ah:'신념을 버리고 최상위 권력을 얻는다',bh:'권력을 포기하고 내 신념대로 산다'}
 ];
 var BONUS=[
-  {id:'b1',tag:'더 해 보기 1',a:'안정',b:'도전',
+  {id:'b1',tag:'딜레마 상황 3',a:'안정',b:'도전',
    text:'평생 걱정 없는 안정된 직업을 가질 수 있지만, 가슴 뛰는 꿈은 포기해야 합니다.',
    ah:'꿈을 접고 안정된 직업을 택한다',bh:'불안해도 꿈에 도전한다'},
-  {id:'b2',tag:'더 해 보기 2',a:'인정',b:'만족',
+  {id:'b2',tag:'딜레마 상황 4',a:'인정',b:'만족',
    text:'모두가 대단하다고 칭찬하지만 나는 즐겁지 않은 일, 아무도 알아주지 않지만 나는 정말 즐거운 일 중 하나를 평생 해야 합니다.',
    ah:'모두가 칭찬하는 일을 한다',bh:'내가 즐거운 일을 한다'},
-  {id:'b3',tag:'더 해 보기 3',a:'우정',b:'꿈',
+  {id:'b3',tag:'딜레마 상황 5',a:'우정',b:'꿈',
    text:'꿈꾸던 해외 학교에 장학생으로 갈 수 있지만, 가장 친한 친구와는 다시 연락할 수 없게 됩니다.',
    ah:'친구 곁에 남는다',bh:'꿈의 학교로 떠난다'}
 ];
@@ -630,7 +630,7 @@ function dilemmaHTML(d,small){
     return '<button type="button" class="pick" data-d="'+d.id+'" data-side="'+side+'" aria-pressed="false"><span class="chk" aria-hidden="true"></span><b>'+esc(name)+'</b><small>'+esc(hint)+'</small></button>';
   }
   return '<article class="dilemma'+(small?' small':'')+'">'+
-    '<p class="d-tag">'+esc(d.tag)+'</p>'+
+    '<p class="d-tag">'+esc(d.tag)+(small?' · 선택':'')+'</p>'+
     '<h3 class="d-title">'+esc(d.a)+' <span class="vsw">vs.</span> '+esc(d.b)+'</h3>'+
     '<p class="d-text">'+esc(d.text)+'</p>'+
     '<div class="vs" id="vs-'+d.id+'" role="group" aria-label="'+esc(d.a+'와 '+d.b+' 중 고르기')+'">'+pk('a')+'<span class="vs-mark" aria-hidden="true">VS</span>'+pk('b')+'</div>'+
@@ -858,7 +858,7 @@ function summaryText(){
     L.push('· '+d.a+' vs. '+d.b+' → 나의 선택: '+(pickName(d,st.pick)||'-'));
     L.push('  선택한 이유: '+(st.why.trim()||'-')); });
   BONUS.forEach(function(d){ var st=S.d[d.id]; if(!st.pick) return;
-    L.push('· (더 해 보기) '+d.a+' vs. '+d.b+' → '+pickName(d,st.pick)+(st.why.trim()?' / '+st.why.trim():'')); });
+    L.push('· ['+d.tag+' · 선택] '+d.a+' vs. '+d.b+' → '+pickName(d,st.pick)+(st.why.trim()?' / '+st.why.trim():'')); });
   L.push('','■ 활동2. 나의 핵심 가치');
   for(var i=0;i<3;i++){ var v=S.values[i]; L.push((i+1)+'. '+(v?v.name+' — '+(v.story.trim()||'-'):'-')); }
   L.push('','■ 활동3. 핵심 가치가 충족된 행복한 삶',S.imgNote.trim()||'-');
@@ -975,9 +975,9 @@ function layout(ctx,img,draw){
   var bon=BONUS.filter(function(d){ return S.d[d.id].pick; });
   if(bon.length){
     y=withBox(ctx,P,y,CW,26,K.white,K.line,30,draw,function(c,ix,iy,iw,dr){
-      c.font='21px '+FB; var yy=text(c,'더 해 본 밸런스 게임',ix,iy,iw,30,K.coralInk,dr);
+      c.font='21px '+FB; var yy=text(c,'선택 문항 (딜레마 상황 3~5)',ix,iy,iw,30,K.coralInk,dr);
       bon.forEach(function(d){ var st=S.d[d.id];
-        c.font='26px '+FD; yy=text(c,d.a+' vs. '+d.b+'  →  '+pickName(d,st.pick),ix,yy+8,iw,38,K.ink,dr);
+        c.font='26px '+FD; yy=text(c,d.tag.replace('딜레마 상황 ','')+'. '+d.a+' vs. '+d.b+'  →  '+pickName(d,st.pick),ix,yy+8,iw,38,K.ink,dr);
         if(st.why.trim()){ c.font='22px '+FB; yy=text(c,st.why.trim(),ix,yy,iw,34,K.soft,dr); } });
       return yy;
     })+16;
@@ -1050,7 +1050,7 @@ function loadImg(src){ return new Promise(function(res,rej){ var i=new Image(); 
 function buildCard(){
   var src=imageSource();
   var imgP=src==='photo'?loadImg(S.photo):Promise.resolve(src==='draw'?drawingCanvas():null);
-  var labels='행복한 삶을 위한 가치관 정립하기 활동1. 내 삶의 우선순위 밸런스 게임 활동2. 자기 존중을 위한 나의 핵심 가치 활동3. 핵심 가치가 충족된 행복한 삶 오늘의 배우고 느낀 점, 실천 사항 선택한 이유: 핵심 가치 0123456789 이 이미지에 담긴 나의 행복한 삶 더 해 본 밸런스 게임 실천할 한 가지 (아직 고르지 않음)(이미지 없음)—vs.→“”';
+  var labels='행복한 삶을 위한 가치관 정립하기 활동1. 내 삶의 우선순위 밸런스 게임 활동2. 자기 존중을 위한 나의 핵심 가치 활동3. 핵심 가치가 충족된 행복한 삶 오늘의 배우고 느낀 점, 실천 사항 선택한 이유: 핵심 가치 0123456789 이 이미지에 담긴 나의 행복한 삶 선택 문항 (딜레마 상황 3~5) 실천할 한 가지 (아직 고르지 않음)(이미지 없음)—vs.→“”';
   return Promise.all([imgP.catch(function(){ return null; }),fontsReady(labels+summaryText()+dateStr())]).then(function(r){ return renderCard(r[0]); });
 }
 

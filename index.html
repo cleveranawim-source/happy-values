@@ -113,6 +113,8 @@ p{margin:0}
 
 .field{display:grid;gap:6px;min-width:0}
 .field>label{font-size:15px;color:var(--ink-soft)}
+select{width:100%;min-height:50px;border:1.5px solid var(--line);background:var(--card);border-radius:16px;padding:10px 14px;font-size:17px}
+select:focus{outline:none;border-color:var(--focus);box-shadow:0 0 0 4px var(--focus-ring)}
 input[type="text"],textarea{width:100%;border:1.5px solid var(--line);background:var(--card);border-radius:16px;padding:11px 15px;font-size:17px;line-height:1.6;transition:border-color .15s,box-shadow .15s}
 textarea{min-height:104px;resize:none;display:block}
 input[type="text"]:focus,textarea:focus{outline:none;border-color:var(--focus);box-shadow:0 0 0 4px var(--focus-ring)}
@@ -146,6 +148,14 @@ input[type="text"]:focus,textarea:focus{outline:none;border-color:var(--focus);b
 .plan b{display:block;font-family:var(--font-display);font-weight:400;font-size:19px;line-height:1.35}
 .plan small{display:block;color:var(--ink-soft);font-size:14.5px;line-height:1.45}
 .note{font-size:14px;color:var(--ink-faint)}
+.share-note{max-width:460px;font-size:14.5px;line-height:1.5;color:var(--ink-soft);text-align:left;margin-top:-8px}
+.sync{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:15px;line-height:1.45;color:var(--ink-soft);background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:9px 14px;justify-self:start;max-width:100%}
+.sync::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--ink-faint);flex:none}
+.sync.ok::before{background:var(--green)}
+.sync.sending::before{background:var(--yellow)}
+.sync.error{border-color:var(--coral);background:var(--coral-soft);color:var(--ink)}
+.sync.error::before{background:var(--coral)}
+.sync .link{min-height:30px;padding:2px 0}
 .store-warn{background:var(--coral-soft);color:var(--ink);border-radius:14px;padding:10px 14px;font-size:15px;max-width:580px}
 .bunting{display:flex;justify-content:center;gap:5px;overflow:hidden;width:100%;padding-top:6px}
 .bunting i{display:block;flex:none;width:24px;height:20px;background:var(--c);clip-path:polygon(50% 0,100% 100%,0 100%)}
@@ -293,7 +303,10 @@ input[type="text"]:focus,textarea:focus{outline:none;border-color:var(--focus);b
     <div class="idrow">
       <div class="field"><label for="f-sid">학번</label><input id="f-sid" type="text" inputmode="numeric" autocomplete="off" maxlength="8" data-bind="sid" placeholder="예) 30215"></div>
       <div class="field"><label for="f-name">이름</label><input id="f-name" type="text" autocomplete="off" maxlength="12" data-bind="name" placeholder="이름"></div>
+      <div class="field"><label for="f-grade">학년</label><select id="f-grade" data-bind="grade"><option value="">고르기</option><option value="1">1학년</option><option value="2">2학년</option><option value="3">3학년</option></select></div>
+      <div class="field"><label for="f-cls">반</label><select id="f-cls" data-bind="cls"><option value="">고르기</option></select></div>
     </div>
+    <p class="share-note" id="shareNote">학년·반을 고르면 내가 고른 답(딜레마 선택, 핵심 가치)이 이름 없이 우리 반 결과판에 모여요. 이유와 경험 글은 보내지 않아요.</p>
     <ol class="plan">
       <li style="--c:var(--coral)"><span class="pdot" aria-hidden="true"></span><div><b>활동1 · 내 삶의 우선순위 밸런스 게임</b><small>둘 중 하나만 고르며 내가 지키고 싶은 것을 찾아요</small></div></li>
       <li style="--c:var(--green)"><span class="pdot" aria-hidden="true"></span><div><b>활동2 · 행복한 삶의 가치관 정립하기</b><small>핵심 가치 3개와 그 가치로 행복했던 경험을 적어요</small></div></li>
@@ -310,6 +323,7 @@ input[type="text"]:focus,textarea:focus{outline:none;border-color:var(--focus);b
   <section class="step" data-step="1" aria-labelledby="t1" hidden>
     <div class="act-head" style="--c:var(--coral)"><span class="big-dot" aria-hidden="true"></span><h2 id="t1">활동1. 내 삶의 우선순위 밸런스 게임</h2></div>
     <p class="act-sub">두 가지 중 하나만 고를 수 있어요. 정답은 없으니 ‘나라면 정말 어떻게 할까?’ 솔직하게 골라 보세요.</p>
+    <p class="sync" data-sync hidden></p>
     <div class="stack" id="dilemmas"></div>
     <details class="bonus" id="bonusBox">
       <summary><span>빨리 끝냈다면? 밸런스 게임 더 해 보기</span><small>선택</small></summary>
@@ -322,6 +336,7 @@ input[type="text"]:focus,textarea:focus{outline:none;border-color:var(--focus);b
   <section class="step" data-step="2" aria-labelledby="t2" hidden>
     <div class="act-head" style="--c:var(--green)"><span class="big-dot" aria-hidden="true"></span><h2 id="t2">활동2. 자기 존중을 위한 행복한 삶의 가치관 정립하기</h2></div>
     <p class="act-sub">나에게 가장 소중한 가치 3개를 고르고, 그 가치가 채워져서 행복했던 경험(고른 이유)을 적어 보세요. 가장 소중한 것부터 차례로 골라요.</p>
+    <p class="sync" data-sync hidden></p>
     <div class="picker">
       <div class="picker-head"><h3>가치 카드</h3><span class="count" id="valCount">3개 중 0개를 골랐어요</span></div>
       <div class="chips" id="chips"></div>
@@ -414,8 +429,11 @@ input[type="text"]:focus,textarea:focus{outline:none;border-color:var(--focus);b
 <script>
 (function(){
 'use strict';
-var VERSION='1.0';
+var VERSION='1.1';
 var KEY='happy-values-worksheet.v1';
+/* 우리 반 결과판(Supabase classroom-board-test, hv_submit 함수). 공개용 키라 페이지에 두어도 됨 */
+var SYNC_URL='https://fsijcdsyewwuehnxwoyr.supabase.co/rest/v1/rpc/hv_submit';
+var SYNC_KEY='sb_publishable_1FNm4dgX8OC_FAzg5yhFgw_WVFBDuqb';
 
 /* ---------- 수업 내용 ---------- */
 var DILEMMAS=[
@@ -464,11 +482,20 @@ var SIZES=[0.005,0.011,0.022], SIZE_NAMES=['가는 펜','중간 펜','굵은 펜
 /* ---------- 상태와 저장 ---------- */
 function defaults(){
   var d={}; ALL_D.forEach(function(x){ d[x.id]={pick:'',why:''}; });
-  return {v:1,sid:'',name:'',d:d,values:[],imgMode:'photo',photo:'',strokes:[],imgNote:'',learn:'',act:'',happy:'',step:0,last:0};
+  return {v:1,cid:newId(),sid:'',name:'',grade:'',cls:'',d:d,values:[],imgMode:'photo',photo:'',strokes:[],imgNote:'',learn:'',act:'',happy:'',step:0,last:0};
+}
+/* 기기별 익명 번호(결과판에서 같은 학생 응답을 덮어쓰는 용도). '처음부터 새로 쓰기'를 하면 새로 만듦 */
+function newId(){
+  var a=new Uint8Array(12);
+  try{ (window.crypto||window.msCrypto).getRandomValues(a); }catch(e){ for(var i=0;i<a.length;i++) a[i]=Math.floor(Math.random()*256); }
+  return Array.prototype.map.call(a,function(b){ return ('0'+b.toString(16)).slice(-2); }).join('');
 }
 function merge(o){
   var s=defaults(); if(!o||typeof o!=='object') return s;
   ['sid','name','photo','imgNote','learn','act','happy'].forEach(function(k){ if(typeof o[k]==='string') s[k]=o[k]; });
+  if(typeof o.cid==='string'&&/^[0-9a-f]{16,64}$/.test(o.cid)) s.cid=o.cid;
+  if(/^[1-3]$/.test(o.grade)) s.grade=o.grade;
+  if(/^([1-9]|1[0-5])$/.test(o.cls)) s.cls=o.cls;
   if(o.imgMode==='draw'||o.imgMode==='photo') s.imgMode=o.imgMode;
   if(typeof o.step==='number') s.step=Math.max(0,Math.min(5,o.step|0));
   if(typeof o.last==='number') s.last=Math.max(0,Math.min(5,o.last|0));
@@ -497,6 +524,46 @@ function setSaveState(k){
 }
 var stepTimer=null;
 function changed(){ scheduleSave(); clearTimeout(stepTimer); stepTimer=setTimeout(updateStepper,250); }
+
+/* ---------- 우리 반 결과판으로 보내기 ----------
+   보내는 것: 익명 기기 번호, 학년-반, 딜레마 선택(a/b), 핵심 가치 이름. 이름·학번·글은 보내지 않음 */
+var sync={timer:null,state:'idle',sent:'',busy:false};
+function syncOn(){ return !inArtifact()&&typeof fetch==='function'; }  /* 아티팩트 안에서는 외부 전송이 막혀 있음 */
+function classCode(){ return S.grade&&S.cls?S.grade+'-'+S.cls:''; }
+function classLabel(){ return S.grade+'학년 '+S.cls+'반'; }
+function hasAnswers(){ return S.values.length>0||ALL_D.some(function(d){ return !!S.d[d.id].pick; }); }
+function syncBody(){
+  return JSON.stringify({p_client:S.cid,p_class:classCode(),
+    p_d1:S.d.d1.pick||null,p_d2:S.d.d2.pick||null,p_b1:S.d.b1.pick||null,p_b2:S.d.b2.pick||null,p_b3:S.d.b3.pick||null,
+    p_vals:S.values.map(function(v){ return v.name; })});
+}
+function scheduleSync(ms){ if(!syncOn()) return; clearTimeout(sync.timer); sync.timer=setTimeout(syncNow,ms==null?1200:ms); renderSync(); }
+function syncNow(){
+  clearTimeout(sync.timer); sync.timer=null;
+  if(!syncOn()||!classCode()||!hasAnswers()){ renderSync(); return; }
+  if(sync.busy){ scheduleSync(800); return; }
+  var body=syncBody();
+  if(body===sync.sent){ sync.state='ok'; renderSync(); return; }
+  sync.busy=true; sync.state='sending'; renderSync();
+  fetch(SYNC_URL,{method:'POST',headers:{'apikey':SYNC_KEY,'Content-Type':'application/json'},body:body})
+    .then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
+    .then(function(j){ if(!j||j.ok!==true) throw new Error('bad'); sync.sent=body; sync.state='ok'; })
+    .catch(function(){ sync.state='error'; })
+    .then(function(){ sync.busy=false; renderSync(); if(sync.state==='ok'&&syncBody()!==sync.sent) scheduleSync(300); });
+}
+function renderSync(){
+  var on=syncOn(), h='', cls='sync';
+  if(on){
+    if(!classCode()){ h='처음 화면에서 학년·반을 고르면 내 선택이 우리 반 결과판에 모여요.<button type="button" class="link" data-go="0">학년·반 고르기</button>'; }
+    else if(!hasAnswers()){ h='고르는 대로 '+classLabel()+' 결과판에 이름 없이 모여요.'; }
+    else if(sync.state==='error'){ cls+=' error'; h='결과판에 보내지 못했어요. 인터넷 연결을 확인해 주세요. 적은 내용은 그대로 있어요.<button type="button" class="link" id="syncRetry">다시 보내기</button>'; }
+    else if(sync.state==='sending'||sync.timer){ cls+=' sending'; h=classLabel()+' 결과판에 보내는 중…'; }
+    else if(sync.state==='ok'){ cls+=' ok'; h=classLabel()+' 결과판에 반영됐어요. 이름은 보내지 않아요.'; }
+    else { h='고르는 대로 '+classLabel()+' 결과판에 이름 없이 모여요.'; }
+  }
+  qsa('[data-sync]').forEach(function(el){ el.hidden=!on; el.className=cls; el.innerHTML=h; });
+  var note=$('shareNote'); if(note) note.hidden=!on;
+}
 
 /* ---------- 도우미 ---------- */
 function $(id){ return document.getElementById(id); }
@@ -575,7 +642,7 @@ function renderPicks(id){
   qsa('.pick',box).forEach(function(b){ b.setAttribute('aria-pressed',String(b.getAttribute('data-side')===p)); });
   box.classList.toggle('has-pick',!!p);
 }
-function choose(id,side){ S.d[id].pick=side; renderPicks(id); changed(); }
+function choose(id,side){ S.d[id].pick=side; renderPicks(id); changed(); scheduleSync(); }
 
 /* ---------- 활동2 ---------- */
 function idxOf(name){ for(var i=0;i<S.values.length;i++) if(S.values[i].name===name) return i; return -1; }
@@ -613,14 +680,14 @@ function renderValues(){ renderChips(); renderSlots(); renderMine(); }
 function addValue(name){
   if(idxOf(name)>=0){ toast('이미 고른 가치예요.'); return false; }
   if(S.values.length>=3){ toast('3개까지 고를 수 있어요. 바꾸고 싶으면 먼저 하나를 빼 주세요.'); return false; }
-  S.values.push({name:name,story:''}); renderValues(); changed();
+  S.values.push({name:name,story:''}); renderValues(); changed(); scheduleSync();
   if(S.values.length===3) setTimeout(function(){ var t=$('slotsTitle'); if(t.scrollIntoView) t.scrollIntoView({behavior:smooth(),block:'start'}); },150);
   return true;
 }
 function removeValue(i,btn){
   var v=S.values[i]; if(!v) return;
   if(v.story.trim()&&!armed(btn,btn.classList.contains('x')?'한 번 더 누르기':'')){ toast('‘'+v.name+'’에 적은 경험도 함께 지워져요. 한 번 더 누르면 빠져요.'); return; }
-  S.values.splice(i,1); renderValues(); changed();
+  S.values.splice(i,1); renderValues(); changed(); scheduleSync();
 }
 function addCustom(){
   var inp=$('customVal'), v=inp.value.trim().replace(/\s+/g,' ');
@@ -1048,7 +1115,7 @@ function renderAll(){
   qsa('[data-bind]').forEach(function(el){ var v=getPath(el.getAttribute('data-bind')); el.value=v==null?'':v; });
   ALL_D.forEach(function(d){ renderPicks(d.id); });
   $('bonusBox').open=BONUS.some(function(d){ return S.d[d.id].pick||S.d[d.id].why; });
-  renderValues(); renderImage(); renderTools(); redrawPad(); updateStepper();
+  renderValues(); renderImage(); renderTools(); redrawPad(); updateStepper(); renderSync();
   var resume=hasProgress();
   $('startBtn').textContent=resume?'이어서 하기 →':'시작하기 →';
   $('startBtn').setAttribute('data-go',String(resume?Math.max(1,S.last||1):1));
@@ -1062,12 +1129,14 @@ function init(){
   var b=''; for(var i=0;i<36;i++){ var t=BUNT[i%BUNT.length]; b+='<i'+(t[1]?' class="p"':'')+' style="--c:var(--'+t[0]+')"></i>'; } $('bunting').innerHTML=b;
   $('dilemmas').innerHTML=DILEMMAS.map(function(d){ return dilemmaHTML(d,false); }).join('');
   $('bonus').innerHTML=BONUS.map(function(d){ return dilemmaHTML(d,true); }).join('');
+  var co=''; for(var k=1;k<=15;k++) co+='<option value="'+k+'">'+k+'반</option>'; $('f-cls').insertAdjacentHTML('beforeend',co);
   buildStepper(); padInit();
   if(!storageOK){ $('storeWarn').hidden=false; setSaveState('off'); } else setSaveState('saved');
 
   document.addEventListener('click',function(e){
     var el=e.target; if(!el||!el.closest) return;
     var go=el.closest('[data-go]'); if(go){ goTo(parseInt(go.getAttribute('data-go'),10)); return; }
+    if(el.closest('#syncRetry')){ syncNow(); return; }
     var pk=el.closest('.pick'); if(pk){ choose(pk.getAttribute('data-d'),pk.getAttribute('data-side')); return; }
     var ch=el.closest('.chip'); if(ch){ var nm=ch.getAttribute('data-val'), ix=idxOf(nm); if(ix>=0) removeValue(ix,ch); else addValue(nm); return; }
     var rm=el.closest('[data-remove]'); if(rm){ removeValue(parseInt(rm.getAttribute('data-remove'),10),rm); return; }
@@ -1075,9 +1144,19 @@ function init(){
     var sw=el.closest('[data-color]'); if(sw){ pad.color=sw.getAttribute('data-color'); pad.erase=false; renderTools(); return; }
     var sz=el.closest('[data-size]'); if(sz){ pad.size=+sz.getAttribute('data-size'); pad.erase=false; renderTools(); return; }
   });
-  document.addEventListener('input',function(e){
+  function onField(e){
     var t=e.target, p=t.getAttribute&&t.getAttribute('data-bind');
     if(p){ setPath(p,t.value); changed(); }
+    if(p==='sid'){  /* 학번 5자리(학년 1 + 반 2 + 번호 2)면 학년·반을 채움 */
+      var m=/^([1-3])(\d{2})\d{2}$/.exec(t.value.trim()), c=m?parseInt(m[2],10):0;
+      if(m&&c>=1&&c<=15&&(S.grade!==m[1]||S.cls!==String(c))){ S.grade=m[1]; S.cls=String(c); $('f-grade').value=S.grade; $('f-cls').value=S.cls; changed(); scheduleSync(); }
+    }
+    if(p==='grade'||p==='cls') scheduleSync(400);
+  }
+  document.addEventListener('change',function(e){ if(e.target.tagName==='SELECT') onField(e); });
+  document.addEventListener('input',function(e){
+    var t=e.target;
+    if(t.tagName!=='SELECT') onField(e);
     var si=t.getAttribute&&t.getAttribute('data-story');
     if(si!==null&&si!==undefined){ var v=S.values[+si]; if(v){ v.story=t.value; changed(); } }
     if(t.tagName==='TEXTAREA') autosize(t);
@@ -1090,7 +1169,7 @@ function init(){
   $('copyText').addEventListener('click',copyText);
   $('resetAll').addEventListener('click',function(){
     if(!armed(this,'한 번 더 누르면 모두 지워져요')) return;
-    S=defaults(); saveNow(); renderAll(); goTo(0); toast('모두 지웠어요. 새로 시작해요.');
+    S=defaults(); sync.sent=''; sync.state='idle'; saveNow(); renderAll(); goTo(0); toast('모두 지웠어요. 새로 시작해요.');
   });
   document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='hidden'&&saveTimer) saveNow(); });
   window.addEventListener('pagehide',function(){ if(saveTimer) saveNow(); });
@@ -1098,6 +1177,8 @@ function init(){
   renderAll();
   goTo(S.step,true);
   if(inArtifact()) setTimeout(getDownloads,600);
+  else if(classCode()&&hasAnswers()) scheduleSync(600);  /* 지난번에 못 보낸 것이 있으면 다시 보냄 */
+  window.addEventListener('online',function(){ if(sync.state==='error') syncNow(); });
 }
 /* 오류가 나도 화면을 지우지 않고 알림만 띄움 (패들렛 미리보기 대비) */
 window.addEventListener('error',function(){ try{ toast('잠깐 문제가 생겼어요. 적은 내용은 그대로 있어요.'); }catch(_){} });

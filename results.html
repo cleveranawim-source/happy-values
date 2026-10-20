@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>우리 반 결과판 · 가치관 정립하기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap">
+<style>
+:root{
+  /* Layout: 교실 화면에 띄우는 결과판. 위에 반·기간 고르기 한 줄, 아래로 활동1(두 갈래 막대) → 활동2(가치 순위 막대) */
+  --paper:#fbfbf7; --grid:#ebebe5; --card:#ffffff;
+  --ink:#27272c; --ink-soft:#5c5c66; --ink-faint:#8f8f98; --line:#dadad3; --track:#efefea;
+  --coral:#e8766a; --green:#7fc283; --blue:#5f93d6; --yellow:#ecd56a;
+  --coral-soft:#fde9e6; --green-soft:#e6f4e6; --yellow-soft:#fbf5d6;
+  --coral-ink:#b94d42; --green-ink:#3b8241; --blue-ink:#376bb0;
+  /* 차트 색: validate_palette.js로 검사(명도대·색각 구분·대비 통과) */
+  --chart-a:#d9675b; --chart-b:#5f93d6; --chart-v:#4fa457;
+  --focus:#376bb0; --shadow:0 1px 0 rgba(30,30,40,.04),0 10px 24px -16px rgba(30,30,60,.35);
+  --font-display:"Jua","Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --font-body:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+  --maxw:1240px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1b1c20; --grid:#25272c; --card:#24262b;
+    --ink:#eceae4; --ink-soft:#b6b4ad; --ink-faint:#85858d; --line:#3a3c43; --track:#30333a;
+    --coral:#ef8a7f; --green:#8fd093; --blue:#7ea9e6; --yellow:#eed775;
+    --coral-soft:#3b2724; --green-soft:#21342a; --yellow-soft:#37321f;
+    --coral-ink:#f4a59b; --green-ink:#a3dba6; --blue-ink:#a6c4f0;
+    --chart-a:#d86a5e; --chart-b:#5b8fd6; --chart-v:#4f9f57;
+    --focus:#8fb6ef; --shadow:0 1px 0 rgba(0,0,0,.2),0 10px 24px -14px rgba(0,0,0,.6);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1b1c20; --grid:#25272c; --card:#24262b;
+  --ink:#eceae4; --ink-soft:#b6b4ad; --ink-faint:#85858d; --line:#3a3c43; --track:#30333a;
+  --coral:#ef8a7f; --green:#8fd093; --blue:#7ea9e6; --yellow:#eed775;
+  --coral-soft:#3b2724; --green-soft:#21342a; --yellow-soft:#37321f;
+  --coral-ink:#f4a59b; --green-ink:#a3dba6; --blue-ink:#a6c4f0;
+  --chart-a:#d86a5e; --chart-b:#5b8fd6; --chart-v:#4f9f57;
+  --focus:#8fb6ef; --shadow:0 1px 0 rgba(0,0,0,.2),0 10px 24px -14px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;min-height:100vh;background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px;color:var(--ink);font-family:var(--font-body);font-size:18px;line-height:1.6;word-break:keep-all;overflow-wrap:break-word}
+[hidden]{display:none!important}
+button,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;margin:0;line-height:1.3;text-wrap:balance}
+p{margin:0}
+.gutter{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-block:22px 40px;display:grid;gap:26px}
+
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px 24px}
+.title small{display:block;font-size:15px;color:var(--ink-soft)}
+.title h1{font-size:clamp(30px,4vw,44px)}
+.dots{display:inline-flex;gap:5px;margin-right:10px;vertical-align:middle}
+.dots i{width:12px;height:12px;border-radius:50%;background:var(--c)}
+.filters{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+select{min-height:46px;border:1.5px solid var(--line);background:var(--card);border-radius:14px;padding:8px 12px;font-size:17px;max-width:100%}
+.seg{display:inline-flex;gap:3px;padding:3px;background:var(--card);border:1.5px solid var(--line);border-radius:14px}
+.seg button{border:0;background:transparent;border-radius:11px;padding:7px 14px;min-height:38px;font-size:16px;color:var(--ink-soft)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.tbtn{min-height:46px;padding:0 16px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);font-size:16px}
+.tbtn[aria-pressed="true"]{background:var(--yellow-soft);border-color:var(--yellow)}
+
+.summary{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 22px}
+.big{font-size:clamp(40px,6vw,64px);line-height:1;color:var(--ink)}
+.big small{font-size:.4em;color:var(--ink-soft);margin-left:6px}
+.meta{color:var(--ink-soft);font-size:16px}
+.live{display:inline-flex;align-items:center;gap:7px}
+.live::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--green)}
+.live.off::before{background:var(--ink-faint)}
+.live.err::before{background:var(--coral)}
+.alert{background:var(--coral-soft);border:1.5px solid var(--coral);border-radius:16px;padding:12px 16px}
+.empty{background:var(--card);border:1.5px dashed var(--line);border-radius:22px;padding:22px;color:var(--ink-soft);display:grid;gap:6px}
+.empty b{font-family:var(--font-display);font-weight:400;font-size:22px;color:var(--ink)}
+.mono{font-family:ui-monospace,Consolas,monospace;font-size:.92em;user-select:all;color:var(--ink)}
+
+.sec{display:grid;gap:16px}
+.sec-head{display:flex;align-items:center;gap:12px}
+.sec-head .bd{width:26px;height:26px;border-radius:50%;background:var(--c);flex:none}
+.sec-head h2{font-size:clamp(24px,2.8vw,32px)}
+.sec-head .sub{color:var(--ink-soft);font-size:16px;margin-left:auto}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.cards.small{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:900px){.cards,.cards.small{grid-template-columns:minmax(0,1fr)}}
+.card{position:relative;background:var(--card);border:1.5px solid var(--line);border-radius:26px;padding:20px 22px;display:grid;gap:12px;align-content:start;min-width:0}
+.tag{font-size:14px;color:var(--coral-ink)}
+.card h3{font-size:clamp(24px,2.6vw,32px);margin-top:-6px}
+.card h3 .vsw{color:var(--ink-faint);font-size:.75em;margin:0 .2em}
+.small .card h3{font-size:22px}
+.scen{color:var(--ink-soft);font-size:15.5px;line-height:1.5}
+.split-l{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.side{display:grid;gap:0}
+.side.r{text-align:right;justify-items:end}
+.side .nm{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-display);font-size:clamp(22px,2.4vw,30px);line-height:1.2}
+.side .nm i{width:14px;height:14px;border-radius:4px;background:var(--c);flex:none}
+.side .num{font-size:clamp(20px,2.2vw,26px);color:var(--ink)}
+.side .num small{font-size:.7em;color:var(--ink-soft)}
+.small .side .nm{font-size:20px}.small .side .num{font-size:18px}
+.bar2{display:flex;gap:2px;height:30px;border-radius:6px;overflow:hidden;background:var(--track)}
+.small .bar2{height:20px}
+.bar2 span{display:block;height:100%;min-width:0;transition:flex-grow .5s ease}
+.bar2 .a{background:var(--chart-a)}
+.bar2 .b{background:var(--chart-b)}
+.foot{font-size:14.5px;color:var(--ink-faint)}
+
+.vals{background:var(--card);border:1.5px solid var(--line);border-radius:26px;padding:18px 22px;display:grid;gap:4px}
+.vrow{display:grid;grid-template-columns:2.2em minmax(5.5em,8.5em) minmax(0,1fr) auto;align-items:center;gap:12px;padding:5px 0;border-radius:10px}
+.vrow .rk{color:var(--ink-faint);font-variant-numeric:tabular-nums;text-align:right}
+.vrow .vn{font-family:var(--font-display);font-size:22px;line-height:1.25}
+.vrow.top .vn{font-size:26px}
+.vtrack{height:22px;display:flex;align-items:center}
+.vtrack span{display:block;height:100%;min-width:4px;background:var(--chart-v);border-radius:0 5px 5px 0;transition:width .5s ease}
+.vrow .vc{font-variant-numeric:tabular-nums;white-space:nowrap;font-size:19px}
+.vrow .vc small{color:var(--ink-soft);font-size:14px;margin-left:6px}
+.more{color:var(--ink-soft);font-size:15px;padding-top:6px}
+.note{color:var(--ink-soft);font-size:15px}
+
+.veil-cover{position:absolute;top:0;left:0;right:0;bottom:0;border-radius:inherit;background:var(--card);display:none;place-items:center;align-content:center;gap:10px;text-align:center;padding:20px;z-index:2}
+.veil-cover b{font-family:var(--font-display);font-weight:400;font-size:24px}
+.veil-cover button{min-height:48px;padding:0 22px;border-radius:14px;border:0;background:var(--ink);color:var(--paper);font-size:17px}
+body.veiled .veilable:not(.shown) .veil-cover{display:grid}
+.veilable{position:relative}
+
+details.tbl{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:6px 18px}
+details.tbl summary{cursor:pointer;min-height:44px;display:flex;align-items:center;color:var(--ink-soft)}
+.tscroll{overflow-x:auto;padding-bottom:12px}
+table{border-collapse:collapse;width:100%;font-size:16px;margin-top:6px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+h4{margin:14px 0 2px;font-size:16px;font-weight:400;color:var(--ink-soft)}
+.pfoot{max-width:var(--maxw);margin:0 auto;padding-block:0 26px;font-size:13.5px;color:var(--ink-faint)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<main class="wrap gutter">
+  <header class="head">
+    <div class="title">
+      <small><span class="dots" aria-hidden="true"><i style="--c:var(--coral)"></i><i style="--c:var(--green)"></i><i style="--c:var(--blue)"></i><i style="--c:var(--yellow)"></i></span>행복한 삶을 위한 가치관 정립하기</small>
+      <h1 id="boardTitle">우리 반 결과판</h1>
+    </div>
+    <div class="filters" role="group" aria-label="결과 범위">
+      <select id="fClass" aria-label="반 고르기"><option value="">전체 반</option></select>
+      <div class="seg" id="fSince" role="group" aria-label="기간">
+        <button type="button" data-since="today" aria-pressed="true">오늘</button>
+        <button type="button" data-since="week" aria-pressed="false">최근 7일</button>
+        <button type="button" data-since="all" aria-pressed="false">전체</button>
+      </div>
+      <button type="button" class="tbtn" id="veilBtn" aria-pressed="false">결과 가리기</button>
+      <button type="button" class="tbtn" id="fsBtn">전체 화면</button>
+    </div>
+  </header>
+
+  <div class="summary">
+    <p class="big" id="total">0<small>명 참여</small></p>
+    <p class="meta"><span class="live" id="live">5초마다 새로 고침</span> · <span id="lastAt">아직 응답 없음</span></p>
+  </div>
+  <p class="alert" id="err" hidden></p>
+  <div class="empty" id="empty" hidden>
+    <b>아직 모인 답이 없어요</b>
+    <p>학생들이 학생용 앱 첫 화면에서 학년·반을 고르고 밸런스 게임과 핵심 가치를 고르면, 여기에 바로 모여요.</p>
+    <p>학생용 주소: <span class="mono">https://cleveranawim-source.github.io/happy-values/</span></p>
+  </div>
+
+  <section class="sec" aria-labelledby="s1">
+    <div class="sec-head" style="--c:var(--coral)"><span class="bd" aria-hidden="true"></span><h2 id="s1">활동1. 내 삶의 우선순위 밸런스 게임</h2></div>
+    <div class="cards" id="mainD"></div>
+    <div id="bonusWrap" hidden>
+      <h3 class="note" style="font-family:var(--font-body);margin:4px 0 10px">빨리 끝낸 친구들이 해 본 밸런스 게임</h3>
+      <div class="cards small" id="bonusD"></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s2">
+    <div class="sec-head" style="--c:var(--green)"><span class="bd" aria-hidden="true"></span><h2 id="s2">활동2. 우리가 고른 핵심 가치</h2><span class="sub" id="valSub"></span></div>
+    <div class="vals veilable" id="vals"></div>
+  </section>
+
+  <details class="tbl" id="tbl">
+    <summary>표로 보기</summary>
+    <div class="tscroll" id="tblBody"></div>
+  </details>
+</main>
+<p class="pfoot gutter">학생의 이름·학번·글은 모으지 않고, 학년·반과 고른 답만 모아요. 같은 기기에서 다시 고르면 그 학생의 답이 바뀌어 반영돼요.</p>
+
+<script>
+(function(){
+'use strict';
+var API='https://fsijcdsyewwuehnxwoyr.supabase.co/rest/v1/rpc/hv_results';
+var KEY='sb_publishable_1FNm4dgX8OC_FAzg5yhFgw_WVFBDuqb';
+var PREF='happy-values-board.v1';
+/* 학생 앱(src/app.html)의 DILEMMAS·BONUS와 같은 내용으로 맞춰 둘 것 */
+var DILEMMAS=[
+  {id:'d1',tag:'딜레마 상황 1',a:'양심',b:'억만장자',text:'당신이 개발한 앱으로 억만장자가 될 수 있지만, 그 앱에는 다른 사람들에게 피해를 주는 비윤리적인 결함이 있습니다.'},
+  {id:'d2',tag:'딜레마 상황 2',a:'권력',b:'자율',text:'최상위 권력을 가질 수 있지만, 자신의 모든 신념을 버리고 다른 세력의 꼭두각시가 되어야 합니다.'}
+];
+var BONUS=[
+  {id:'b1',tag:'더 해 보기 1',a:'안정',b:'도전',text:'평생 걱정 없는 안정된 직업을 가질 수 있지만, 가슴 뛰는 꿈은 포기해야 합니다.'},
+  {id:'b2',tag:'더 해 보기 2',a:'인정',b:'만족',text:'모두가 칭찬하지만 즐겁지 않은 일과, 아무도 몰라주지만 정말 즐거운 일 중 하나를 평생 해야 합니다.'},
+  {id:'b3',tag:'더 해 보기 3',a:'우정',b:'꿈',text:'꿈꾸던 해외 학교에 갈 수 있지만, 가장 친한 친구와는 다시 연락할 수 없게 됩니다.'}
+];
+var SHOW_VALUES=15;
+
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function pct(n,t){ return t?Math.round(n*100/t):0; }
+function clsName(code){ var m=/^(\d)-(\d+)$/.exec(code||''); return m?m[1]+'학년 '+m[2]+'반':code; }
+function ymd(d){ return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+function sinceDate(k){ var d=new Date(); if(k==='today') return ymd(d); if(k==='week'){ d.setDate(d.getDate()-6); return ymd(d); } return null; }
+function ago(iso){
+  if(!iso) return '아직 응답 없음';
+  var s=Math.max(0,Math.round((Date.now()-new Date(iso).getTime())/1000));
+  if(s<60) return '마지막 응답 방금 전'; if(s<3600) return '마지막 응답 '+Math.floor(s/60)+'분 전';
+  if(s<86400) return '마지막 응답 '+Math.floor(s/3600)+'시간 전'; return '마지막 응답 '+Math.floor(s/86400)+'일 전';
+}
+
+/* 상태 */
+var st={cls:'',since:'today',veil:false,shown:{},data:null,timer:null,busy:false};
+try{ var p=JSON.parse(localStorage.getItem(PREF)||'{}'); if(typeof p.cls==='string') st.cls=p.cls; if(p.since==='today'||p.since==='week'||p.since==='all') st.since=p.since; }catch(e){}
+var q=/[?&]class=([1-3]-\d{1,2})/.exec(location.search); if(q) st.cls=q[1];
+function savePref(){ try{ localStorage.setItem(PREF,JSON.stringify({cls:st.cls,since:st.since})); }catch(e){} }
+
+/* 그리기 */
+function veilCover(label){ return '<div class="veil-cover"><b>'+esc(label)+'</b><button type="button" data-reveal>결과 공개하기</button></div>'; }
+function dilemmaCard(d,c,small){
+  var a=c?c.a:0,b=c?c.b:0,t=a+b,pa=pct(a,t),pb=t?100-pa:0;
+  var bar=(a?'<span class="a" style="flex:'+a+' 1 0" title="'+esc(d.a+' '+a+'명 ('+pa+'%)')+'"></span>':'')+
+          (b?'<span class="b" style="flex:'+b+' 1 0" title="'+esc(d.b+' '+b+'명 ('+pb+'%)')+'"></span>':'');
+  return '<article class="card veilable'+(st.shown[d.id]?' shown':'')+'" data-id="'+d.id+'">'+
+    '<p class="tag">'+esc(d.tag)+'</p>'+
+    '<h3>'+esc(d.a)+' <span class="vsw">vs.</span> '+esc(d.b)+'</h3>'+
+    (small?'':'<p class="scen">'+esc(d.text)+'</p>')+
+    '<div class="split-l">'+
+      '<div class="side" style="--c:var(--chart-a)"><span class="nm"><i aria-hidden="true"></i>'+esc(d.a)+'</span><span class="num">'+a+'명 <small>'+(t?pa+'%':'')+'</small></span></div>'+
+      '<div class="side r" style="--c:var(--chart-b)"><span class="nm">'+esc(d.b)+'<i aria-hidden="true"></i></span><span class="num">'+b+'명 <small>'+(t?pb+'%':'')+'</small></span></div>'+
+    '</div>'+
+    '<div class="bar2" role="img" aria-label="'+esc(d.a+' '+a+'명, '+d.b+' '+b+'명')+'">'+bar+'</div>'+
+    '<p class="foot">'+(t?t+'명이 골랐어요':'아직 고른 학생이 없어요')+'</p>'+
+    veilCover(d.a+' vs. '+d.b)+
+  '</article>';
+}
+function render(){
+  var r=st.data; if(!r) return;
+  var total=r.total||0, dl=r.dilemmas||{}, vals=r.values||[];
+  $('total').innerHTML=total+'<small>명 참여</small>';
+  $('lastAt').textContent=ago(r.updated);
+  $('boardTitle').textContent=(st.cls?clsName(st.cls):'전체 반')+' 결과판';
+  $('empty').hidden=total>0;
+  $('mainD').innerHTML=DILEMMAS.map(function(d){ return dilemmaCard(d,dl[d.id],false); }).join('');
+  var bon=BONUS.filter(function(d){ var c=dl[d.id]; return c&&(c.a+c.b)>0; });
+  $('bonusWrap').hidden=!bon.length;
+  $('bonusD').innerHTML=bon.map(function(d){ return dilemmaCard(d,dl[d.id],true); }).join('');
+
+  var wv=r.withValues||0, max=vals.length?vals[0].count:0, h='';
+  $('valSub').textContent=wv?wv+'명이 가치 3개씩 골랐어요':'';
+  if(!vals.length) h='<p class="note">아직 고른 가치가 없어요.</p>';
+  vals.slice(0,SHOW_VALUES).forEach(function(v,i){
+    var w=max?v.count/max*100:0;
+    h+='<div class="vrow'+(i<3?' top':'')+'" title="'+esc(v.name+': '+v.count+'명 ('+pct(v.count,wv)+'%), 1순위로 고른 학생 '+v.first+'명')+'">'+
+       '<span class="rk">'+(i+1)+'</span><span class="vn">'+esc(v.name)+'</span>'+
+       '<span class="vtrack"><span style="width:'+w.toFixed(1)+'%"></span></span>'+
+       '<span class="vc">'+v.count+'명'+(v.first?'<small>1순위 '+v.first+'</small>':'')+'</span></div>';
+  });
+  if(vals.length>SHOW_VALUES){ var rest=vals.slice(SHOW_VALUES); h+='<p class="more">그 밖에 '+rest.map(function(v){ return esc(v.name)+' '+v.count; }).join(', ')+'</p>'; }
+  $('vals').innerHTML=h+veilCover('우리 반이 고른 핵심 가치');
+  $('vals').classList.toggle('shown',!!st.shown.vals);
+  renderTable(r);
+}
+function renderTable(r){
+  var dl=r.dilemmas||{}, h='<h4>활동1. 밸런스 게임</h4><table><thead><tr><th>딜레마</th><th>선택</th><th class="n">학생 수</th><th class="n">비율</th></tr></thead><tbody>';
+  DILEMMAS.concat(BONUS).forEach(function(d){ var c=dl[d.id]||{a:0,b:0}, t=c.a+c.b; if(!t&&d.id.charAt(0)==='b') return;
+    h+='<tr><td rowspan="2">'+esc(d.a+' vs. '+d.b)+'</td><td>'+esc(d.a)+'</td><td class="n">'+c.a+'</td><td class="n">'+pct(c.a,t)+'%</td></tr>'+
+       '<tr><td>'+esc(d.b)+'</td><td class="n">'+c.b+'</td><td class="n">'+(t?100-pct(c.a,t):0)+'%</td></tr>'; });
+  h+='</tbody></table><h4>활동2. 핵심 가치</h4><table><thead><tr><th class="n">순위</th><th>가치</th><th class="n">고른 학생</th><th class="n">1순위로 고름</th></tr></thead><tbody>';
+  (r.values||[]).forEach(function(v,i){ h+='<tr><td class="n">'+(i+1)+'</td><td>'+esc(v.name)+'</td><td class="n">'+v.count+'</td><td class="n">'+v.first+'</td></tr>'; });
+  $('tblBody').innerHTML=h+'</tbody></table>';
+}
+function renderClasses(list){
+  var sel=$('fClass'), have={};
+  list=(list||[]).slice().sort(function(x,y){ var a=x.code.split('-'),b=y.code.split('-'); return (a[0]-b[0])||(a[1]-b[1]); });
+  var h='<option value="">전체 반</option>';
+  list.forEach(function(c){ have[c.code]=1; h+='<option value="'+esc(c.code)+'">'+esc(clsName(c.code))+' ('+c.n+'명)</option>'; });
+  if(st.cls&&!have[st.cls]) h+='<option value="'+esc(st.cls)+'">'+esc(clsName(st.cls))+' (0명)</option>';
+  if(sel.innerHTML!==h){ sel.innerHTML=h; }
+  sel.value=st.cls;
+}
+
+/* 불러오기 */
+function load(){
+  if(st.busy) return; st.busy=true;
+  fetch(API,{method:'POST',headers:{'apikey':KEY,'Content-Type':'application/json'},body:JSON.stringify({p_class:st.cls||null,p_since:sinceDate(st.since)})})
+    .then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
+    .then(function(j){ st.data=j; $('err').hidden=true; $('live').className='live'+(st.timer?'':' off'); renderClasses(j.classes); render(); })
+    .catch(function(){
+      $('live').className='live err';
+      $('err').hidden=false;
+      $('err').textContent='결과를 불러오지 못했어요. 인터넷 연결을 확인해 주세요. 계속 안 되면 Supabase 프로젝트(classroom-board-test)가 일시정지됐는지 확인해 주세요.';
+    })
+    .then(function(){ st.busy=false; });
+}
+function startTimer(){ stopTimer(); st.timer=setInterval(function(){ if(document.visibilityState==='visible') load(); },5000); }
+function stopTimer(){ if(st.timer){ clearInterval(st.timer); st.timer=null; } }
+
+/* 조작 */
+$('fClass').addEventListener('change',function(){ st.cls=this.value; st.shown={}; savePref(); load(); });
+Array.prototype.forEach.call(document.querySelectorAll('#fSince button'),function(b){
+  b.setAttribute('aria-pressed',String(b.getAttribute('data-since')===st.since));
+  b.addEventListener('click',function(){
+    st.since=b.getAttribute('data-since'); savePref();
+    Array.prototype.forEach.call(document.querySelectorAll('#fSince button'),function(x){ x.setAttribute('aria-pressed',String(x===b)); });
+    load();
+  });
+});
+$('veilBtn').addEventListener('click',function(){
+  st.veil=!st.veil; st.shown={};
+  document.body.classList.toggle('veiled',st.veil);
+  this.setAttribute('aria-pressed',String(st.veil)); this.textContent=st.veil?'모두 공개하기':'결과 가리기';
+  render();
+});
+document.addEventListener('click',function(e){
+  var b=e.target.closest&&e.target.closest('[data-reveal]'); if(!b) return;
+  var card=b.closest('.veilable'); var id=card.getAttribute('data-id')||'vals';
+  st.shown[id]=true; card.classList.add('shown');
+});
+var fsBtn=$('fsBtn'), de=document.documentElement;
+if(!(de.requestFullscreen||de.webkitRequestFullscreen)) fsBtn.hidden=true;
+fsBtn.addEventListener('click',function(){
+  var on=document.fullscreenElement||document.webkitFullscreenElement;
+  try{
+    if(on){ (document.exitFullscreen||document.webkitExitFullscreen).call(document); }
+    else { var p=(de.requestFullscreen||de.webkitRequestFullscreen).call(de); if(p&&p.catch) p.catch(function(){}); }
+  }catch(e){}
+});
+document.addEventListener('fullscreenchange',function(){ fsBtn.textContent=document.fullscreenElement?'전체 화면 끝내기':'전체 화면'; });
+document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible') load(); });
+setInterval(function(){ if(st.data) $('lastAt').textContent=ago(st.data.updated); },15000);
+
+load(); startTimer();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1110 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body>
+<title>행복한 삶을 위한 가치관 정립하기</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap">
+<style>
+:root{
+  /* Layout: 모눈 학습지 한 장을 활동별 페이지로 나눠 넘기는 구조. 활동마다 학습지의 색 점(빨강·초록·파랑·노랑)을 표지로 쓴다. */
+  --paper:#fbfbf7;
+  --paper-glass:rgba(251,251,247,.9);
+  --grid:#ebebe5;
+  --card:#ffffff;
+  --ink:#27272c;
+  --ink-soft:#5c5c66;
+  --ink-faint:#8f8f98;
+  --line:#dadad3;
+  --coral:#e8766a; --coral-soft:#fde9e6; --coral-ink:#b94d42;
+  --green:#7fc283; --green-soft:#e6f4e6; --green-ink:#3b8241;
+  --blue:#5f93d6;  --blue-soft:#e4eefa;  --blue-ink:#376bb0;
+  --yellow:#ecd56a; --yellow-soft:#fbf5d6; --yellow-ink:#8a6f0c;
+  --on-accent:#1d2620;
+  --focus:#376bb0;
+  --focus-ring:rgba(55,107,176,.22);
+  --canvas-paper:#ffffff;
+  --canvas-hint:#9a9aa2;
+  --shadow:0 1px 0 rgba(30,30,40,.04),0 10px 24px -16px rgba(30,30,60,.35);
+  --font-display:"Jua","Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --font-body:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+  --maxw:940px;
+  --r-box:28px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1b1c20; --paper-glass:rgba(27,28,32,.88); --grid:#25272c; --card:#24262b;
+    --ink:#eceae4; --ink-soft:#b6b4ad; --ink-faint:#85858d; --line:#3a3c43;
+    --coral:#ef8a7f; --coral-soft:#3b2724; --coral-ink:#f4a59b;
+    --green:#8fd093; --green-soft:#21342a; --green-ink:#a3dba6;
+    --blue:#7ea9e6;  --blue-soft:#202d40;  --blue-ink:#a6c4f0;
+    --yellow:#eed775; --yellow-soft:#37321f; --yellow-ink:#efd97a;
+    --on-accent:#15201a; --focus:#8fb6ef; --focus-ring:rgba(143,182,239,.28);
+    --shadow:0 1px 0 rgba(0,0,0,.2),0 10px 24px -14px rgba(0,0,0,.6);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1b1c20; --paper-glass:rgba(27,28,32,.88); --grid:#25272c; --card:#24262b;
+  --ink:#eceae4; --ink-soft:#b6b4ad; --ink-faint:#85858d; --line:#3a3c43;
+  --coral:#ef8a7f; --coral-soft:#3b2724; --coral-ink:#f4a59b;
+  --green:#8fd093; --green-soft:#21342a; --green-ink:#a3dba6;
+  --blue:#7ea9e6;  --blue-soft:#202d40;  --blue-ink:#a6c4f0;
+  --yellow:#eed775; --yellow-soft:#37321f; --yellow-ink:#efd97a;
+  --on-accent:#15201a; --focus:#8fb6ef; --focus-ring:rgba(143,182,239,.28);
+  --shadow:0 1px 0 rgba(0,0,0,.2),0 10px 24px -14px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;min-height:100vh;background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px;color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.65;word-break:keep-all;overflow-wrap:break-word;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+img{max-width:100%}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;-webkit-appearance:none;appearance:none}
+button:disabled{cursor:default;opacity:.55}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;margin:0;line-height:1.3;text-wrap:balance}
+p{margin:0}
+.vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.gutter{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* 상단 진행 표시 */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper-glass);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-in{max-width:calc(var(--maxw) + 140px);margin:0 auto;padding-block:8px;display:flex;align-items:center;gap:12px}
+.brand{font-family:var(--font-display);font-size:18px;white-space:nowrap;display:flex;align-items:center;gap:5px}
+.brand i{width:9px;height:9px;border-radius:50%;background:var(--c);display:inline-block}
+.brand span{margin-left:6px}
+.stepper{flex:1;min-width:0;display:flex;justify-content:center;gap:2px}
+.stepper button{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:6px 11px;border:0;border-radius:12px;background:transparent;color:var(--ink-soft);font-size:15px;white-space:nowrap}
+.stepper .sdot{width:12px;height:12px;border-radius:50%;background:var(--c);flex:none}
+.stepper button[aria-current="step"]{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+.stepper .ok{display:none;color:var(--green-ink);font-size:14px;line-height:1}
+.stepper .ok::before{content:"✓"}
+.stepper .done .ok{display:inline}
+.save-state{font-size:13px;color:var(--ink-faint);white-space:nowrap;min-width:6em;text-align:right}
+.save-state.warn{color:var(--coral-ink)}
+@media (max-width:880px){.brand{display:none}}
+@media (max-width:660px){
+  .stepper{justify-content:space-between}
+  .stepper button{padding:6px 8px;gap:5px}
+  .stepper .lbl{display:none}
+  .stepper [aria-current="step"] .lbl{display:inline}
+  .save-state{display:none}
+}
+@media (max-width:420px){.stepper .done:not([aria-current]) .ok{display:none}}
+
+/* 본문 */
+.wrap{max-width:var(--maxw);margin:0 auto;padding-block:28px 40px}
+.step{display:grid;gap:20px;animation:rise .3s ease both}
+@keyframes rise{from{opacity:.35;transform:translateY(8px)}to{opacity:1;transform:none}}
+.act-head{display:flex;align-items:center;gap:14px}
+.big-dot{width:30px;height:30px;border-radius:50%;background:var(--c);flex:none;box-shadow:inset -4px -5px 0 rgba(0,0,0,.07)}
+.act-head h2{font-size:clamp(23px,3.4vw,31px)}
+.act-sub{color:var(--ink-soft);max-width:44em;margin-top:-8px}
+.stack{display:grid;gap:18px}
+.box{background:var(--card);border:1.5px solid var(--line);border-radius:var(--r-box);padding:20px clamp(16px,3vw,26px)}
+
+.field{display:grid;gap:6px;min-width:0}
+.field>label{font-size:15px;color:var(--ink-soft)}
+input[type="text"],textarea{width:100%;border:1.5px solid var(--line);background:var(--card);border-radius:16px;padding:11px 15px;font-size:17px;line-height:1.6;transition:border-color .15s,box-shadow .15s}
+textarea{min-height:104px;resize:none;display:block}
+input[type="text"]:focus,textarea:focus{outline:none;border-color:var(--focus);box-shadow:0 0 0 4px var(--focus-ring)}
+::placeholder{color:var(--ink-faint);opacity:1}
+.box textarea,.dilemma textarea,.slot textarea{background:var(--paper)}
+
+/* 버튼 */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 22px;border-radius:16px;border:1.5px solid var(--line);background:var(--card);font-size:17px;line-height:1.2;text-align:center;color:var(--ink);cursor:pointer;transition:transform .12s,background .15s}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.btn.ghost{background:transparent}
+.btn.big{min-height:58px;padding:0 34px;font-size:20px;font-family:var(--font-display)}
+.btn.armed{background:var(--coral-soft);border-color:var(--coral);color:var(--ink)}
+.nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:8px}
+.nav .btn.primary{margin-left:auto}
+
+/* 표지 */
+.cover{justify-items:center;text-align:center;gap:22px;padding-top:8px}
+.confetti{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;max-width:100%}
+.cf{display:block;width:15px;height:15px;border-radius:50%;background:var(--c)}
+.cf.t{border-radius:0;clip-path:polygon(50% 0,100% 100%,0 100%)}
+.cf.tl{border-radius:0;clip-path:polygon(0 50%,100% 0,100% 100%)}
+.cf.tr{border-radius:0;clip-path:polygon(100% 50%,0 0,0 100%)}
+.cf.p,.bunting i.p{opacity:.42}
+.cover h1{font-size:clamp(34px,6.4vw,56px);letter-spacing:-.01em}
+.lede{max-width:32em;color:var(--ink-soft);font-size:18px}
+.idrow{display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:12px;width:100%;max-width:460px;text-align:left}
+.plan{list-style:none;margin:0;padding:0;display:grid;gap:10px;width:100%;max-width:580px;text-align:left}
+.plan li{display:flex;align-items:center;gap:14px;background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:12px 18px}
+.plan .pdot{width:18px;height:18px;border-radius:50%;background:var(--c);flex:none}
+.plan b{display:block;font-family:var(--font-display);font-weight:400;font-size:19px;line-height:1.35}
+.plan small{display:block;color:var(--ink-soft);font-size:14.5px;line-height:1.45}
+.note{font-size:14px;color:var(--ink-faint)}
+.store-warn{background:var(--coral-soft);color:var(--ink);border-radius:14px;padding:10px 14px;font-size:15px;max-width:580px}
+.bunting{display:flex;justify-content:center;gap:5px;overflow:hidden;width:100%;padding-top:6px}
+.bunting i{display:block;flex:none;width:24px;height:20px;background:var(--c);clip-path:polygon(50% 0,100% 100%,0 100%)}
+
+/* 활동1 밸런스 게임 */
+.dilemma{background:var(--card);border:1.5px solid var(--line);border-radius:var(--r-box);padding:20px clamp(16px,3vw,26px) 22px;display:grid;gap:14px}
+.d-tag{font-size:14.5px;color:var(--coral-ink);letter-spacing:.02em}
+.d-title{font-size:clamp(22px,3vw,27px);margin-top:-8px}
+.d-title .vsw{color:var(--ink-faint);font-size:.8em;margin:0 .15em}
+.d-text{font-size:17.5px;margin-top:-6px}
+.vs{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:12px;align-items:stretch}
+.pick{position:relative;display:grid;align-content:center;justify-items:center;gap:4px;min-height:112px;padding:16px 14px;border:2px solid var(--line);border-radius:22px;background:var(--paper);text-align:center;transition:opacity .2s,background .2s,border-color .2s,transform .12s}
+.pick:active{transform:scale(.985)}
+.pick b{font-family:var(--font-display);font-weight:400;font-size:28px;line-height:1.2}
+.pick small{font-size:14.5px;line-height:1.4;color:var(--ink-soft)}
+.pick[data-side="a"]{--c:var(--coral);--cs:var(--coral-soft)}
+.pick[data-side="b"]{--c:var(--blue);--cs:var(--blue-soft)}
+.pick .chk{position:absolute;top:10px;right:12px;width:26px;height:26px;border-radius:50%;display:none;place-items:center;font-size:15px;line-height:1;background:var(--c);color:var(--on-accent)}
+.pick .chk::before{content:"✓"}
+.pick[aria-pressed="true"]{background:var(--cs);border-color:var(--c)}
+.pick[aria-pressed="true"] .chk{display:grid}
+.vs.has-pick .pick[aria-pressed="false"]{opacity:.5}
+.vs-mark{align-self:center;font-family:var(--font-display);font-size:22px;color:var(--ink-faint)}
+@media (max-width:540px){.vs{grid-template-columns:minmax(0,1fr)}.vs-mark{justify-self:center;font-size:18px}.pick{min-height:84px}}
+.bonus{border:1.5px dashed var(--line);border-radius:var(--r-box);padding:6px 18px}
+.bonus[open]{padding-bottom:18px}
+.bonus summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;min-height:52px;font-family:var(--font-display);font-size:19px}
+.bonus summary::-webkit-details-marker{display:none}
+.bonus summary::before{content:"+";width:28px;height:28px;border-radius:50%;background:var(--coral-soft);color:var(--coral-ink);display:grid;place-items:center;font-size:20px;line-height:1;flex:none}
+.bonus[open] summary::before{content:"−"}
+.bonus summary small{font-family:var(--font-body);font-size:13px;color:var(--ink-faint);border:1px solid var(--line);border-radius:999px;padding:1px 9px}
+.bonus .stack{padding-top:6px}
+.dilemma.small .pick{min-height:84px}
+.dilemma.small .pick b{font-size:23px}
+.dilemma.small textarea{min-height:66px}
+
+/* 활동2 핵심 가치 */
+.picker{display:grid;gap:14px}
+.picker-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.picker-head h3{font-size:20px}
+.count{font-size:15px;color:var(--green-ink);font-variant-numeric:tabular-nums}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.chip{position:relative;display:grid;align-content:start;gap:2px;min-height:78px;padding:11px 14px;text-align:left;border:1.5px solid var(--line);border-radius:18px;background:var(--card);transition:background .15s,border-color .15s,opacity .15s,transform .12s}
+.chip:active{transform:scale(.98)}
+.chip b{font-family:var(--font-display);font-weight:400;font-size:21px;line-height:1.25;padding-right:26px}
+.chip small{font-size:13.5px;line-height:1.38;color:var(--ink-soft)}
+.chip[aria-pressed="true"]{background:var(--green-soft);border-color:var(--green)}
+.chip .no{position:absolute;top:9px;right:10px;width:26px;height:26px;border-radius:50%;background:var(--green);color:var(--on-accent);display:grid;place-items:center;font-family:var(--font-display);font-size:15px;line-height:1}
+.chips.full .chip[aria-pressed="false"]{opacity:.5}
+.chip.armed{background:var(--coral-soft);border-color:var(--coral)}
+.custom{display:grid;gap:6px}
+.custom>label{font-size:15px;color:var(--ink-soft)}
+.custom-row{display:flex;gap:8px}
+.custom-row input{flex:1;min-width:0}
+.custom-row .btn{flex:none;min-height:50px}
+.slots-title{font-size:20px;scroll-margin-top:90px}
+.slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.slot{display:grid;align-content:start;gap:8px;min-height:240px;padding:18px;background:var(--card);border:1.5px solid var(--line);border-radius:var(--r-box);min-width:0}
+.slot.empty{border-style:dashed;background:transparent;align-content:center;justify-items:center;text-align:center;color:var(--ink-faint)}
+.slot-top{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:34px}
+.slot-k{font-size:14.5px;color:var(--green-ink)}
+.slot-v{font-family:var(--font-display);font-size:30px;line-height:1.2;word-break:keep-all;overflow-wrap:anywhere}
+.slot textarea{min-height:150px}
+.x{border:1px solid var(--line);background:transparent;border-radius:999px;padding:4px 13px;font-size:14px;color:var(--ink-soft);min-height:36px}
+.x.armed{background:var(--coral-soft);border-color:var(--coral);color:var(--ink)}
+@media (max-width:860px){.slots{grid-template-columns:minmax(0,1fr)}.slot.empty{min-height:96px}}
+
+/* 활동3 이미지 */
+.mine{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:15px;color:var(--ink-soft)}
+.tag{background:var(--green-soft);border:1px solid var(--green);border-radius:999px;padding:3px 12px;font-family:var(--font-display);color:var(--ink);font-size:16px}
+.seg{display:inline-flex;gap:4px;padding:4px;background:var(--card);border:1.5px solid var(--line);border-radius:18px;justify-self:start;max-width:100%}
+.seg button{border:0;background:transparent;border-radius:14px;padding:10px 18px;min-height:46px;font-size:16px;color:var(--ink-soft)}
+.seg button[aria-selected="true"]{background:var(--blue-soft);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--blue)}
+.photo-drop{display:grid;place-items:center;align-content:center;gap:12px;min-height:320px;padding:28px 20px;text-align:center;background:var(--card);border:2px dashed var(--line);border-radius:var(--r-box)}
+.pd-art{position:relative;width:132px;height:96px;margin-bottom:4px}
+.pd-art i{position:absolute;left:36px;top:6px;width:60px;height:80px;border-radius:10px;border:3px solid var(--card);box-shadow:var(--shadow)}
+.pd-art i:nth-child(1){background:var(--coral);transform:translateX(-24px) rotate(-14deg)}
+.pd-art i:nth-child(2){background:var(--yellow);transform:rotate(2deg)}
+.pd-art i:nth-child(3){background:var(--blue);transform:translateX(26px) rotate(15deg)}
+.pd-title{font-family:var(--font-display);font-size:21px}
+.pd-sub{color:var(--ink-soft);font-size:15px;max-width:30em}
+.photo-view{display:grid;gap:14px;justify-items:center;padding:16px;background:var(--card);border:1.5px solid var(--line);border-radius:var(--r-box)}
+.photo-view img{display:block;max-height:520px;width:auto;border-radius:18px}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.padbox{display:grid;gap:12px;padding:14px;background:var(--card);border:1.5px solid var(--line);border-radius:var(--r-box)}
+.tools{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+.swatches,.sizes,.acts{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.acts{margin-left:auto}
+.sw{width:38px;height:38px;border-radius:50%;border:3px solid var(--card);background:var(--sw);box-shadow:0 0 0 1.5px var(--line);padding:0}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 3px var(--ink)}
+.sz{width:42px;height:42px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);display:grid;place-items:center;padding:0}
+.sz i{display:block;border-radius:50%;background:var(--ink)}
+.tbtn{min-height:42px;padding:0 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);font-size:15px}
+.sz[aria-pressed="true"],.tbtn[aria-pressed="true"]{background:var(--blue-soft);border-color:var(--blue)}
+.tbtn.armed{background:var(--coral-soft);border-color:var(--coral)}
+.canvas-wrap{position:relative;width:100%;height:0;padding-top:75%;background:var(--canvas-paper);border:1.5px solid var(--line);border-radius:18px;overflow:hidden;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#pad{position:absolute;top:0;left:0;width:100%;height:100%;display:block;touch-action:none}
+.pad-hint{position:absolute;top:0;left:0;right:0;bottom:0;display:grid;place-items:center;color:var(--canvas-hint);font-size:16px;pointer-events:none;text-align:center;padding:20px}
+
+/* 마무리 */
+.happy{background:var(--yellow-soft);border:1.5px solid var(--yellow);border-radius:var(--r-box);padding:26px 20px;text-align:center}
+.happy-line{display:block;font-family:var(--font-display);font-size:clamp(21px,3.2vw,29px);line-height:2}
+.happy input[type="text"]{display:inline-block;width:100%;max-width:440px;vertical-align:baseline;border:0;border-bottom:2.5px dotted var(--ink-soft);border-radius:0;background:transparent;font-family:var(--font-display);font-size:inherit;text-align:center;padding:0 6px;line-height:1.5}
+.happy input[type="text"]:focus{box-shadow:none;border-bottom-color:var(--focus);border-bottom-style:solid}
+
+/* 완성 */
+.result{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:22px;align-items:start}
+.card-preview{display:grid;place-items:center;min-height:320px;padding:10px;background:var(--card);border:1.5px solid var(--line);border-radius:22px}
+.card-preview img{display:block;width:100%;height:auto;border-radius:12px}
+.muted{color:var(--ink-faint)}
+.side{display:grid;gap:12px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 84px)}
+.missing{background:var(--yellow-soft);border:1.5px solid var(--yellow);border-radius:20px;padding:14px 16px;display:grid;gap:8px;font-size:15px}
+.missing.ok{background:var(--green-soft);border-color:var(--green)}
+.mb-title{font-family:var(--font-display);font-size:18px;line-height:1.4}
+.missing ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.missing li{display:flex;justify-content:space-between;gap:10px;align-items:center;line-height:1.4}
+.link{border:0;background:transparent;color:var(--blue-ink);text-decoration:underline;text-underline-offset:3px;padding:6px 0;font-size:14.5px;white-space:nowrap;min-height:36px}
+.mb-foot{color:var(--ink-soft);font-size:13.5px}
+.hint{font-size:14px;color:var(--ink-soft);line-height:1.5}
+#copyFallback{min-height:160px;font-size:14px}
+
+@media (max-width:860px){.result{grid-template-columns:minmax(0,1fr)}.side{position:static;order:-1}}
+
+.foot{max-width:var(--maxw);margin:0 auto;padding-block:4px 28px;text-align:center;font-size:13px;color:var(--ink-faint)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:14px;font-size:15px;line-height:1.45;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;width:max-content;max-width:calc(100% - 32px);z-index:50;box-shadow:var(--shadow)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<header class="top">
+  <div class="top-in gutter">
+    <div class="brand" aria-hidden="true"><i style="--c:var(--coral)"></i><i style="--c:var(--green)"></i><i style="--c:var(--blue)"></i><i style="--c:var(--yellow)"></i><span>가치관 정립하기</span></div>
+    <nav class="stepper" id="stepper" aria-label="활동 단계"></nav>
+    <span class="save-state" id="saveState" role="status">자동 저장</span>
+  </div>
+</header>
+
+<main class="wrap gutter" id="main">
+
+  <!-- 0. 표지 -->
+  <section class="step cover" data-step="0" aria-labelledby="t0">
+    <div class="confetti" id="confetti" aria-hidden="true"></div>
+    <h1 id="t0">행복한 삶을 위한 가치관 정립하기</h1>
+    <p class="lede">내 삶에서 정말 소중한 것은 무엇일까요? 고민되는 선택 앞에서 나를 들여다보고, 나만의 핵심 가치를 찾아 그 가치가 채워진 행복한 삶을 그려 봐요.</p>
+    <div class="idrow">
+      <div class="field"><label for="f-sid">학번</label><input id="f-sid" type="text" inputmode="numeric" autocomplete="off" maxlength="8" data-bind="sid" placeholder="예) 30215"></div>
+      <div class="field"><label for="f-name">이름</label><input id="f-name" type="text" autocomplete="off" maxlength="12" data-bind="name" placeholder="이름"></div>
+    </div>
+    <ol class="plan">
+      <li style="--c:var(--coral)"><span class="pdot" aria-hidden="true"></span><div><b>활동1 · 내 삶의 우선순위 밸런스 게임</b><small>둘 중 하나만 고르며 내가 지키고 싶은 것을 찾아요</small></div></li>
+      <li style="--c:var(--green)"><span class="pdot" aria-hidden="true"></span><div><b>활동2 · 행복한 삶의 가치관 정립하기</b><small>핵심 가치 3개와 그 가치로 행복했던 경험을 적어요</small></div></li>
+      <li style="--c:var(--blue)"><span class="pdot" aria-hidden="true"></span><div><b>활동3 · 행복한 삶 이미지화하기</b><small>이미지 프리즘 카드나 그림으로 나의 행복을 표현해요</small></div></li>
+      <li style="--c:var(--yellow)"><span class="pdot" aria-hidden="true"></span><div><b>마무리 · 배우고 느낀 점, 실천 사항</b><small>“내가 생각하는 행복은 ______ 이다.”</small></div></li>
+    </ol>
+    <p class="store-warn" id="storeWarn" hidden>이 화면에서는 자동 저장이 되지 않아요. 창을 닫기 전에 꼭 마지막 단계에서 완성 카드를 이미지로 저장하세요.</p>
+    <button class="btn primary big" type="button" id="startBtn" data-go="1">시작하기 →</button>
+    <p class="note">적은 내용은 이 기기에만 자동으로 저장돼요.</p>
+    <div class="bunting" id="bunting" aria-hidden="true"></div>
+  </section>
+
+  <!-- 1. 밸런스 게임 -->
+  <section class="step" data-step="1" aria-labelledby="t1" hidden>
+    <div class="act-head" style="--c:var(--coral)"><span class="big-dot" aria-hidden="true"></span><h2 id="t1">활동1. 내 삶의 우선순위 밸런스 게임</h2></div>
+    <p class="act-sub">두 가지 중 하나만 고를 수 있어요. 정답은 없으니 ‘나라면 정말 어떻게 할까?’ 솔직하게 골라 보세요.</p>
+    <div class="stack" id="dilemmas"></div>
+    <details class="bonus" id="bonusBox">
+      <summary><span>빨리 끝냈다면? 밸런스 게임 더 해 보기</span><small>선택</small></summary>
+      <div class="stack" id="bonus"></div>
+    </details>
+    <div class="nav"><button class="btn ghost" type="button" data-go="0">← 처음 화면</button><button class="btn primary" type="button" data-go="2">다음: 핵심 가치 →</button></div>
+  </section>
+
+  <!-- 2. 핵심 가치 -->
+  <section class="step" data-step="2" aria-labelledby="t2" hidden>
+    <div class="act-head" style="--c:var(--green)"><span class="big-dot" aria-hidden="true"></span><h2 id="t2">활동2. 자기 존중을 위한 행복한 삶의 가치관 정립하기</h2></div>
+    <p class="act-sub">나에게 가장 소중한 가치 3개를 고르고, 그 가치가 채워져서 행복했던 경험(고른 이유)을 적어 보세요. 가장 소중한 것부터 차례로 골라요.</p>
+    <div class="picker">
+      <div class="picker-head"><h3>가치 카드</h3><span class="count" id="valCount">3개 중 0개를 골랐어요</span></div>
+      <div class="chips" id="chips"></div>
+      <div class="custom">
+        <label for="customVal">찾는 가치가 없다면 직접 써서 추가해요</label>
+        <div class="custom-row"><input id="customVal" type="text" maxlength="12" autocomplete="off" placeholder="예) 웃음"><button class="btn" id="addCustom" type="button">추가</button></div>
+      </div>
+    </div>
+    <h3 class="slots-title" id="slotsTitle">나의 핵심 가치 3</h3>
+    <div class="slots" id="slots"></div>
+    <div class="nav"><button class="btn ghost" type="button" data-go="1">← 밸런스 게임</button><button class="btn primary" type="button" data-go="3">다음: 행복 이미지 →</button></div>
+  </section>
+
+  <!-- 3. 이미지화 -->
+  <section class="step" data-step="3" aria-labelledby="t3" hidden>
+    <div class="act-head" style="--c:var(--blue)"><span class="big-dot" aria-hidden="true"></span><h2 id="t3">활동3. 핵심 가치가 충족된 행복한 삶 이미지화하기</h2></div>
+    <p class="act-sub">나의 핵심 가치가 모두 채워진 미래의 어느 하루를 떠올려 보세요. 이미지 프리즘 카드에서 그 모습과 닮은 카드를 골라 사진으로 올리거나, 직접 그려도 좋아요.</p>
+    <p class="mine" id="mine"></p>
+    <div class="seg" role="tablist" aria-label="이미지 만드는 방법">
+      <button type="button" role="tab" id="tab-photo" aria-controls="panel-photo" data-mode="photo">카드 사진 올리기</button>
+      <button type="button" role="tab" id="tab-draw" aria-controls="panel-draw" data-mode="draw">직접 그리기</button>
+    </div>
+    <div id="panel-photo" role="tabpanel" aria-labelledby="tab-photo">
+      <div class="photo-drop" id="photoEmpty">
+        <div class="pd-art" aria-hidden="true"><i></i><i></i><i></i></div>
+        <p class="pd-title">고른 카드를 사진으로 찍어 올려요</p>
+        <p class="pd-sub">카드가 화면에 꽉 차게 찍으면 잘 보여요. 갤러리에 있는 사진을 골라도 돼요.</p>
+        <label class="btn primary" for="photoInput">사진 찍기 · 고르기</label>
+      </div>
+      <div class="photo-view" id="photoView" hidden>
+        <img id="photoImg" alt="내가 고른 이미지">
+        <div class="row"><label class="btn" for="photoInput">다른 사진으로 바꾸기</label><button class="btn ghost" type="button" id="photoRemove">사진 빼기</button></div>
+      </div>
+      <input type="file" id="photoInput" accept="image/*" class="vh" tabindex="-1">
+    </div>
+    <div id="panel-draw" role="tabpanel" aria-labelledby="tab-draw" hidden>
+      <div class="padbox">
+        <div class="tools" role="toolbar" aria-label="그리기 도구">
+          <div class="swatches" id="swatches"></div>
+          <div class="sizes" id="sizes"></div>
+          <div class="acts">
+            <button type="button" class="tbtn" id="eraser" aria-pressed="false">지우개</button>
+            <button type="button" class="tbtn" id="undo">되돌리기</button>
+            <button type="button" class="tbtn" id="clearPad">모두 지우기</button>
+          </div>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="pad" aria-label="그림 그리는 곳"></canvas>
+          <div class="pad-hint" id="padHint">여기에 손가락이나 펜으로 그려요</div>
+        </div>
+      </div>
+    </div>
+    <div class="field"><label for="f-imgnote">이 이미지에 담긴 나의 행복한 삶</label><textarea id="f-imgnote" data-bind="imgNote" placeholder="어떤 장면인가요? 그 안에 나의 어떤 가치가 담겨 있나요?"></textarea></div>
+    <div class="nav"><button class="btn ghost" type="button" data-go="2">← 핵심 가치</button><button class="btn primary" type="button" data-go="4">다음: 마무리 →</button></div>
+  </section>
+
+  <!-- 4. 마무리 -->
+  <section class="step" data-step="4" aria-labelledby="t4" hidden>
+    <div class="act-head" style="--c:var(--yellow)"><span class="big-dot" aria-hidden="true"></span><h2 id="t4">오늘의 배우고 느낀 점, 실천 사항</h2></div>
+    <p class="act-sub">오늘 활동을 돌아보며 마음에 남은 것을 적어요.</p>
+    <div class="stack">
+      <div class="box field"><label for="f-learn">배우고 느낀 점</label><textarea id="f-learn" data-bind="learn" placeholder="오늘 새롭게 알게 된 나의 모습, 친구들의 선택을 보며 느낀 점을 적어요."></textarea></div>
+      <div class="box field"><label for="f-act">실천할 한 가지</label><textarea id="f-act" data-bind="act" placeholder="내 가치를 지키며 살기 위해 이번 주에 해 볼 일 한 가지를 적어요."></textarea></div>
+      <div class="happy"><label class="happy-line" for="f-happy">“내가 생각하는 행복은 <input id="f-happy" type="text" data-bind="happy" maxlength="40" autocomplete="off" placeholder="빈칸을 채워요"> 이다.”</label></div>
+    </div>
+    <div class="nav"><button class="btn ghost" type="button" data-go="3">← 행복 이미지</button><button class="btn primary" type="button" data-go="5">완성 카드 만들기 →</button></div>
+  </section>
+
+  <!-- 5. 완성 -->
+  <section class="step" data-step="5" aria-labelledby="t5" hidden>
+    <div class="act-head" style="--c:var(--ink)"><span class="big-dot" aria-hidden="true"></span><h2 id="t5">나의 가치관 카드</h2></div>
+    <p class="act-sub">오늘 적은 내용이 한 장의 카드로 모였어요. 이미지로 저장해서 패들렛에 올리고 친구들과 나눠요.</p>
+    <div class="result">
+      <div class="card-preview" id="cardPreview"><p class="muted">카드를 만들고 있어요…</p></div>
+      <div class="side">
+        <div class="missing" id="missingBox" hidden></div>
+        <button class="btn primary" type="button" id="saveImg" disabled>이미지로 저장</button>
+        <p class="hint">저장이 안 되면 카드 이미지를 길게 눌러 ‘이미지 저장’을 고르세요. 컴퓨터에서는 오른쪽 클릭으로 저장해요.</p>
+        <button class="btn" type="button" id="copyText">글로 복사하기</button>
+        <textarea id="copyFallback" readonly hidden aria-label="복사할 글"></textarea>
+      </div>
+    </div>
+    <div class="nav"><button class="btn ghost" type="button" data-go="4">← 마무리</button><button class="btn ghost" type="button" id="resetAll">처음부터 새로 쓰기</button></div>
+  </section>
+</main>
+
+<footer class="foot gutter">행복한 삶을 위한 가치관 정립하기 · v<span id="ver"></span></footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+var VERSION='1.0';
+var KEY='happy-values-worksheet.v1';
+
+/* ---------- 수업 내용 ---------- */
+var DILEMMAS=[
+  {id:'d1',tag:'딜레마 상황 1',a:'양심',b:'억만장자',
+   text:'당신이 개발한 앱으로 억만장자가 될 수 있지만, 그 앱에는 다른 사람들에게 피해를 주는 비윤리적인 결함이 있습니다.',
+   ah:'앱을 내놓지 않고 양심을 지킨다',bh:'결함이 있어도 앱을 출시해 억만장자가 된다'},
+  {id:'d2',tag:'딜레마 상황 2',a:'권력',b:'자율',
+   text:'최상위 권력을 가질 수 있지만, 자신의 모든 신념을 버리고 다른 세력의 꼭두각시가 되어야 합니다.',
+   ah:'신념을 버리고 최상위 권력을 얻는다',bh:'권력을 포기하고 내 신념대로 산다'}
+];
+var BONUS=[
+  {id:'b1',tag:'더 해 보기 1',a:'안정',b:'도전',
+   text:'평생 걱정 없는 안정된 직업을 가질 수 있지만, 가슴 뛰는 꿈은 포기해야 합니다.',
+   ah:'꿈을 접고 안정된 직업을 택한다',bh:'불안해도 꿈에 도전한다'},
+  {id:'b2',tag:'더 해 보기 2',a:'인정',b:'만족',
+   text:'모두가 대단하다고 칭찬하지만 나는 즐겁지 않은 일, 아무도 알아주지 않지만 나는 정말 즐거운 일 중 하나를 평생 해야 합니다.',
+   ah:'모두가 칭찬하는 일을 한다',bh:'내가 즐거운 일을 한다'},
+  {id:'b3',tag:'더 해 보기 3',a:'우정',b:'꿈',
+   text:'꿈꾸던 해외 학교에 장학생으로 갈 수 있지만, 가장 친한 친구와는 다시 연락할 수 없게 됩니다.',
+   ah:'친구 곁에 남는다',bh:'꿈의 학교로 떠난다'}
+];
+var ALL_D=DILEMMAS.concat(BONUS);
+var VALUES=[
+  ['가족','서로 아끼고 함께하는 가족'],['우정','마음을 나누는 친구'],['사랑','아끼고 사랑받는 관계'],
+  ['건강','몸과 마음이 튼튼한 것'],['성장','어제보다 나아지는 나'],['배움','새로운 것을 알아 가는 기쁨'],
+  ['자율','내 일을 스스로 정하는 것'],['정직','거짓 없이 떳떳한 것'],['성실','맡은 일을 꾸준히 하는 것'],
+  ['배려','다른 사람을 먼저 생각하는 것'],['감사','작은 것에도 고마워하는 마음'],['신앙','하나님과 함께하는 삶'],
+  ['도전','해 보지 않은 일에 뛰어드는 것'],['용기','두려워도 옳은 일을 하는 것'],['안정','걱정 없이 편안한 생활'],
+  ['성취','목표를 이루어 내는 것'],['즐거움','재미있고 신나는 시간'],['창의성','나만의 생각을 만들어 내는 것'],
+  ['정의','공정하고 옳은 것을 지키는 것'],['평화','다툼 없이 마음이 고요한 것'],['나눔','가진 것을 함께 나누는 것'],
+  ['책임','내 말과 행동을 끝까지 지키는 것'],['존중','나와 남을 소중히 여기는 것'],['인정','다른 사람에게 인정받는 것'],
+  ['경제적 여유','필요한 것을 누릴 수 있는 돈'],['나다움','있는 그대로의 나로 사는 것'],['휴식','충분히 쉬고 회복하는 것'],
+  ['소속감','어딘가에 속해 있다는 든든함'],['꿈','이루고 싶은 미래를 향하는 것'],['신뢰','서로 믿을 수 있는 관계'],
+  ['아름다움','아름다운 것을 느끼고 가꾸는 것'],['자연','자연과 어울려 사는 것']
+];
+var STEPS=[
+  {label:'시작',c:'var(--ink-faint)'},{label:'밸런스 게임',c:'var(--coral)'},{label:'핵심 가치',c:'var(--green)'},
+  {label:'행복 이미지',c:'var(--blue)'},{label:'마무리',c:'var(--yellow)'},{label:'완성',c:'var(--ink)'}
+];
+var CONF=[['t','green'],['d','green'],['d','yellow',1],['tl','coral'],['d','green',1],['d','yellow'],['d','coral'],['tr','blue'],['d','yellow'],['d','coral'],['d','green'],['t','coral',1],['d','yellow',1],['tl','coral'],['d','green',1],['d','yellow'],['d','green']];
+var BUNT=[['green'],['coral',1],['blue'],['coral'],['green'],['green',1]];
+var COLORS=['#2b2b30','#e8766a','#f2a541','#ecd56a','#7fc283','#5f93d6','#9b7ad8','#a0704a'];
+var COLOR_NAMES=['검정','빨강','주황','노랑','초록','파랑','보라','갈색'];
+var SIZES=[0.005,0.011,0.022], SIZE_NAMES=['가는 펜','중간 펜','굵은 펜'], ERASER=0.045;
+
+/* ---------- 상태와 저장 ---------- */
+function defaults(){
+  var d={}; ALL_D.forEach(function(x){ d[x.id]={pick:'',why:''}; });
+  return {v:1,sid:'',name:'',d:d,values:[],imgMode:'photo',photo:'',strokes:[],imgNote:'',learn:'',act:'',happy:'',step:0,last:0};
+}
+function merge(o){
+  var s=defaults(); if(!o||typeof o!=='object') return s;
+  ['sid','name','photo','imgNote','learn','act','happy'].forEach(function(k){ if(typeof o[k]==='string') s[k]=o[k]; });
+  if(o.imgMode==='draw'||o.imgMode==='photo') s.imgMode=o.imgMode;
+  if(typeof o.step==='number') s.step=Math.max(0,Math.min(5,o.step|0));
+  if(typeof o.last==='number') s.last=Math.max(0,Math.min(5,o.last|0));
+  if(o.d&&typeof o.d==='object') ALL_D.forEach(function(x){ var v=o.d[x.id]; if(v){ if(v.pick==='a'||v.pick==='b') s.d[x.id].pick=v.pick; if(typeof v.why==='string') s.d[x.id].why=v.why; } });
+  if(Array.isArray(o.values)) s.values=o.values.filter(function(v){ return v&&typeof v.name==='string'&&v.name; }).slice(0,3).map(function(v){ return {name:v.name,story:typeof v.story==='string'?v.story:''}; });
+  if(Array.isArray(o.strokes)) s.strokes=o.strokes.filter(function(st){ return st&&Array.isArray(st.p)&&st.p.length>=2; });
+  return s;
+}
+var storageOK=true;
+function readStore(){
+  try{ localStorage.setItem('__hv_t','1'); localStorage.removeItem('__hv_t'); }catch(e){ storageOK=false; return null; }
+  try{ var raw=localStorage.getItem(KEY); return raw?JSON.parse(raw):null; }catch(e){ return null; }
+}
+var S=merge(readStore());
+var saveTimer=null, warnedFull=false;
+function scheduleSave(){ setSaveState('saving'); clearTimeout(saveTimer); saveTimer=setTimeout(saveNow,350); }
+function saveNow(){
+  clearTimeout(saveTimer); saveTimer=null;
+  if(!storageOK){ setSaveState('off'); return; }
+  try{ localStorage.setItem(KEY,JSON.stringify(S)); setSaveState('saved'); }
+  catch(e){ setSaveState('full'); if(!warnedFull){ warnedFull=true; toast('저장 공간이 부족해요. 사진을 빼거나 그림을 조금 줄여 보세요.'); } }
+}
+function setSaveState(k){
+  var el=$('saveState'); var map={saving:'저장 중…',saved:'자동 저장됨',off:'자동 저장 안 됨',full:'저장 실패'};
+  el.textContent=map[k]||''; el.className='save-state'+(k==='off'||k==='full'?' warn':'');
+}
+var stepTimer=null;
+function changed(){ scheduleSave(); clearTimeout(stepTimer); stepTimer=setTimeout(updateStepper,250); }
+
+/* ---------- 도우미 ---------- */
+function $(id){ return document.getElementById(id); }
+function qsa(sel,root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function getPath(p){ return p.split('.').reduce(function(o,k){ return o==null?undefined:o[k]; },S); }
+function setPath(p,v){ var ks=p.split('.'),o=S; for(var i=0;i<ks.length-1;i++) o=o[ks[i]]; o[ks[ks.length-1]]=v; }
+function smooth(){ return (window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)?'auto':'smooth'; }
+function autosize(t){ if(!t||t.offsetParent===null) return; t.style.height='auto'; t.style.height=(t.scrollHeight+(t.offsetHeight-t.clientHeight))+'px'; }
+var toastTimer=null;
+function toast(msg){ var t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(function(){ t.classList.remove('show'); },3400); }
+/* 패들렛 등 인앱 브라우저에서 confirm()이 막히므로 두 번 눌러 확인 */
+function armed(btn,label){
+  if(btn.getAttribute('data-armed')==='1'){ disarm(btn); return true; }
+  btn.setAttribute('data-armed','1'); btn.classList.add('armed');
+  if(label){ btn.setAttribute('data-orig',btn.textContent); btn.textContent=label; }
+  clearTimeout(btn._armT); btn._armT=setTimeout(function(){ disarm(btn); },3200);
+  return false;
+}
+function disarm(btn){ clearTimeout(btn._armT); btn.removeAttribute('data-armed'); btn.classList.remove('armed'); var o=btn.getAttribute('data-orig'); if(o){ btn.textContent=o; btn.removeAttribute('data-orig'); } }
+function who(){ return [S.sid.trim(),S.name.trim()].filter(Boolean).join(' '); }
+function happyClean(){ return S.happy.trim().replace(/[.!。\s]+$/,''); }
+/* 학생이 '…이다'까지 써도 '이다'가 겹치지 않게, 빈칸 끝말에 '이다'를 붙여 문장을 완성 */
+function happySentence(){
+  var h=happyClean();
+  if(!h) return '“내가 생각하는 행복은 ______ 이다.”';
+  return '“내가 생각하는 행복은 '+h+(/다$/.test(h)?'':'이다')+'.”';
+}
+function pickName(d,side){ return side==='a'?d.a:side==='b'?d.b:''; }
+
+/* ---------- 단계 이동 ---------- */
+var sections=qsa('.step');
+function goTo(n,noScroll){
+  n=Math.max(0,Math.min(5,n|0));
+  S.step=n; if(n>0) S.last=n; scheduleSave();
+  sections.forEach(function(sec,i){ sec.hidden=(i!==n); });
+  updateStepper();
+  qsa('textarea',sections[n]).forEach(autosize);
+  if(n===3) requestAnimationFrame(padResize);
+  if(n===5) renderDone();
+  if(!noScroll) window.scrollTo(0,0);
+}
+function buildStepper(){
+  $('stepper').innerHTML=STEPS.map(function(s,i){
+    return '<button type="button" data-go="'+i+'" style="--c:'+s.c+'"><span class="sdot" aria-hidden="true"></span><span class="lbl">'+s.label+'</span><span class="ok" aria-hidden="true"></span></button>';
+  }).join('');
+}
+function updateStepper(){
+  var m=missing(), btns=$('stepper').children;
+  for(var i=0;i<btns.length;i++){
+    var b=btns[i];
+    if(i===S.step) b.setAttribute('aria-current','step'); else b.removeAttribute('aria-current');
+    var done=(i>=1&&i<=4)&&!m.some(function(x){ return x[0]===i; });
+    b.classList.toggle('done',done);
+    b.setAttribute('aria-label',STEPS[i].label+(done?' (다 채움)':''));
+  }
+}
+function hasProgress(){ return !!(S.values.length||S.photo||S.strokes.length||S.learn||S.imgNote||ALL_D.some(function(d){ return S.d[d.id].pick||S.d[d.id].why; })); }
+
+/* ---------- 활동1 ---------- */
+function dilemmaHTML(d,small){
+  function pk(side){
+    var name=side==='a'?d.a:d.b, hint=side==='a'?d.ah:d.bh;
+    return '<button type="button" class="pick" data-d="'+d.id+'" data-side="'+side+'" aria-pressed="false"><span class="chk" aria-hidden="true"></span><b>'+esc(name)+'</b><small>'+esc(hint)+'</small></button>';
+  }
+  return '<article class="dilemma'+(small?' small':'')+'">'+
+    '<p class="d-tag">'+esc(d.tag)+'</p>'+
+    '<h3 class="d-title">'+esc(d.a)+' <span class="vsw">vs.</span> '+esc(d.b)+'</h3>'+
+    '<p class="d-text">'+esc(d.text)+'</p>'+
+    '<div class="vs" id="vs-'+d.id+'" role="group" aria-label="'+esc(d.a+'와 '+d.b+' 중 고르기')+'">'+pk('a')+'<span class="vs-mark" aria-hidden="true">VS</span>'+pk('b')+'</div>'+
+    '<div class="field"><label for="why-'+d.id+'">선택한 이유</label><textarea id="why-'+d.id+'" data-bind="d.'+d.id+'.why" placeholder="'+(small?'이유를 짧게 적어 보세요.':'왜 이쪽을 골랐나요? 이 선택으로 내가 지키고 싶은 것은 무엇인가요?')+'"></textarea></div>'+
+  '</article>';
+}
+function renderPicks(id){
+  var box=$('vs-'+id); if(!box) return; var p=S.d[id].pick;
+  qsa('.pick',box).forEach(function(b){ b.setAttribute('aria-pressed',String(b.getAttribute('data-side')===p)); });
+  box.classList.toggle('has-pick',!!p);
+}
+function choose(id,side){ S.d[id].pick=side; renderPicks(id); changed(); }
+
+/* ---------- 활동2 ---------- */
+function idxOf(name){ for(var i=0;i<S.values.length;i++) if(S.values[i].name===name) return i; return -1; }
+function renderChips(){
+  var full=S.values.length>=3;
+  $('chips').className='chips'+(full?' full':'');
+  $('chips').innerHTML=VALUES.map(function(v){
+    var i=idxOf(v[0]);
+    return '<button type="button" class="chip" data-val="'+esc(v[0])+'" aria-pressed="'+(i>=0)+'">'+(i>=0?'<span class="no" aria-hidden="true">'+(i+1)+'</span>':'')+'<b>'+esc(v[0])+'</b><small>'+esc(v[1])+'</small></button>';
+  }).join('');
+  $('valCount').textContent='3개 중 '+S.values.length+'개를 골랐어요';
+}
+function renderSlots(){
+  var h='';
+  for(var i=0;i<3;i++){
+    var v=S.values[i];
+    if(v){
+      h+='<div class="slot"><div class="slot-top"><span class="slot-k">핵심 가치 '+(i+1)+'</span><button type="button" class="x" data-remove="'+i+'" aria-label="'+esc(v.name)+' 빼기">빼기</button></div>'+
+         '<p class="slot-v">'+esc(v.name)+'</p>'+
+         '<label class="vh" for="story-'+i+'">'+esc(v.name)+'이(가) 채워져 행복했던 경험</label>'+
+         '<textarea id="story-'+i+'" data-story="'+i+'" placeholder="이 가치가 채워져서 행복했던 경험을 적어 보세요. 언제, 무슨 일이 있었고, 그때 마음이 어땠나요?">'+esc(v.story)+'</textarea></div>';
+    } else {
+      h+='<div class="slot empty"><span class="slot-k">핵심 가치 '+(i+1)+'</span><p>위에서 가치를 골라 주세요</p></div>';
+    }
+  }
+  $('slots').innerHTML=h;
+  qsa('textarea',$('slots')).forEach(autosize);
+}
+function renderMine(){
+  var el=$('mine');
+  if(!S.values.length){ el.innerHTML='<span>활동2에서 핵심 가치를 먼저 골라 보세요.</span><button type="button" class="link" data-go="2">고르러 가기</button>'; return; }
+  el.innerHTML='<span>나의 핵심 가치</span>'+S.values.map(function(v){ return '<span class="tag">'+esc(v.name)+'</span>'; }).join('');
+}
+function renderValues(){ renderChips(); renderSlots(); renderMine(); }
+function addValue(name){
+  if(idxOf(name)>=0){ toast('이미 고른 가치예요.'); return false; }
+  if(S.values.length>=3){ toast('3개까지 고를 수 있어요. 바꾸고 싶으면 먼저 하나를 빼 주세요.'); return false; }
+  S.values.push({name:name,story:''}); renderValues(); changed();
+  if(S.values.length===3) setTimeout(function(){ var t=$('slotsTitle'); if(t.scrollIntoView) t.scrollIntoView({behavior:smooth(),block:'start'}); },150);
+  return true;
+}
+function removeValue(i,btn){
+  var v=S.values[i]; if(!v) return;
+  if(v.story.trim()&&!armed(btn,btn.classList.contains('x')?'한 번 더 누르기':'')){ toast('‘'+v.name+'’에 적은 경험도 함께 지워져요. 한 번 더 누르면 빠져요.'); return; }
+  S.values.splice(i,1); renderValues(); changed();
+}
+function addCustom(){
+  var inp=$('customVal'), v=inp.value.trim().replace(/\s+/g,' ');
+  if(!v){ toast('추가할 가치를 먼저 적어 주세요.'); inp.focus(); return; }
+  if(addValue(v)) inp.value='';
+}
+
+/* ---------- 활동3: 사진 ---------- */
+function setMode(m){ S.imgMode=m; renderImage(); changed(); if(m==='draw') requestAnimationFrame(padResize); }
+function renderImage(){
+  var draw=S.imgMode==='draw';
+  $('tab-photo').setAttribute('aria-selected',String(!draw)); $('tab-draw').setAttribute('aria-selected',String(draw));
+  $('tab-photo').tabIndex=draw?-1:0; $('tab-draw').tabIndex=draw?0:-1;
+  $('panel-photo').hidden=draw; $('panel-draw').hidden=!draw;
+  var has=!!S.photo;
+  $('photoEmpty').hidden=has; $('photoView').hidden=!has;
+  if(has&&$('photoImg').getAttribute('src')!==S.photo) $('photoImg').src=S.photo;
+  if(!has) $('photoImg').removeAttribute('src');
+}
+function processPhoto(file){
+  if(!file) return;
+  if(file.type&&file.type.indexOf('image/')!==0){ toast('사진 파일만 올릴 수 있어요.'); return; }
+  var url=URL.createObjectURL(file), img=new Image();
+  img.onload=function(){
+    var max=1280, w=img.naturalWidth, h=img.naturalHeight, k=Math.min(1,max/Math.max(w,h));
+    var c=document.createElement('canvas'); c.width=Math.max(1,Math.round(w*k)); c.height=Math.max(1,Math.round(h*k));
+    var x=c.getContext('2d'); x.fillStyle='#ffffff'; x.fillRect(0,0,c.width,c.height); x.drawImage(img,0,0,c.width,c.height);
+    URL.revokeObjectURL(url);
+    try{ S.photo=c.toDataURL('image/jpeg',0.85); }catch(e){ toast('사진을 불러오지 못했어요. 다른 사진을 골라 주세요.'); return; }
+    S.imgMode='photo'; renderImage(); changed(); toast('사진을 올렸어요.');
+  };
+  img.onerror=function(){ URL.revokeObjectURL(url); toast('이 사진은 열 수 없어요. 다른 사진을 골라 주세요.'); };
+  img.src=url;
+}
+
+/* ---------- 활동3: 그리기 ----------
+   - canvas desynchronized 옵션은 쓰지 않음(갤럭시탭에서 검게 합성되는 문제)
+   - 펜을 한 번 쓰면 이후 손가락 터치는 무시(손바닥 오입력 방지)
+   - 좌표는 0~1로 저장해 화면 크기가 바뀌어도 그대로 다시 그림 */
+var pad={cv:null,ctx:null,cw:0,ch:0,color:COLORS[0],size:1,erase:false,cur:null,curType:'',id:null,penSeen:false,last:null,lastMid:null,rect:null};
+function r4(v){ return Math.round(v*10000)/10000; }
+function strokeStyle(c,s,W){ c.globalCompositeOperation=s.e?'destination-out':'source-over'; c.strokeStyle=s.c; c.fillStyle=s.c; c.lineWidth=s.s*W; c.lineCap='round'; c.lineJoin='round'; }
+function drawStroke(c,s,W,H){
+  var p=s.p; c.save(); strokeStyle(c,s,W);
+  c.beginPath(); c.arc(p[0]*W,p[1]*H,s.s*W/2,0,Math.PI*2); c.fill();
+  if(p.length>2){
+    c.beginPath(); var px=p[0]*W,py=p[1]*H; c.moveTo(px,py);
+    for(var i=2;i<p.length;i+=2){ var x=p[i]*W,y=p[i+1]*H; c.quadraticCurveTo(px,py,(px+x)/2,(py+y)/2); px=x; py=y; }
+    c.lineTo(px,py); c.stroke();
+  }
+  c.restore();
+}
+function padResize(){
+  if(!pad.cv) return;
+  var r=pad.cv.getBoundingClientRect(); if(r.width<10||r.height<10) return;
+  var dpr=Math.min(window.devicePixelRatio||1,2), W=Math.round(r.width*dpr), H=Math.round(r.height*dpr);
+  if(pad.ctx&&pad.cv.width===W&&pad.cv.height===H) return;
+  pad.cv.width=W; pad.cv.height=H; pad.cw=r.width; pad.ch=r.height;
+  pad.ctx=pad.cv.getContext('2d'); pad.ctx.setTransform(dpr,0,0,dpr,0,0);
+  redrawPad();
+}
+function redrawPad(){
+  if(!pad.ctx){ padUI(); return; } var c=pad.ctx;
+  c.save(); c.setTransform(1,0,0,1,0,0); c.clearRect(0,0,pad.cv.width,pad.cv.height); c.restore();
+  S.strokes.forEach(function(s){ drawStroke(c,s,pad.cw,pad.ch); });
+  padUI();
+}
+function padUI(){ $('padHint').hidden=S.strokes.length>0||!!pad.cur; $('undo').disabled=!S.strokes.length; }
+function begin(x,y){
+  var s={c:pad.erase?'#000000':pad.color,s:pad.erase?ERASER:SIZES[pad.size],e:pad.erase?1:0,p:[r4(x/pad.cw),r4(y/pad.ch)]};
+  pad.cur=s; pad.last=[x,y]; pad.lastMid=[x,y];
+  var c=pad.ctx; c.save(); strokeStyle(c,s,pad.cw); c.beginPath(); c.arc(x,y,s.s*pad.cw/2,0,Math.PI*2); c.fill(); c.restore();
+  $('padHint').hidden=true;
+}
+function extend(x,y){
+  var s=pad.cur; if(!s) return;
+  var lx=pad.last[0], ly=pad.last[1];
+  if(Math.abs(x-lx)+Math.abs(y-ly)<1.5) return;
+  s.p.push(r4(x/pad.cw),r4(y/pad.ch));
+  var mx=(lx+x)/2, my=(ly+y)/2, c=pad.ctx;
+  c.save(); strokeStyle(c,s,pad.cw); c.beginPath(); c.moveTo(pad.lastMid[0],pad.lastMid[1]); c.quadraticCurveTo(lx,ly,mx,my); c.stroke(); c.restore();
+  pad.lastMid=[mx,my]; pad.last=[x,y];
+}
+function finish(){
+  var s=pad.cur; if(!s) return; pad.cur=null;
+  var c=pad.ctx; c.save(); strokeStyle(c,s,pad.cw); c.beginPath(); c.moveTo(pad.lastMid[0],pad.lastMid[1]); c.lineTo(pad.last[0],pad.last[1]); c.stroke(); c.restore();
+  S.strokes.push(s); changed(); padUI();
+}
+function padInit(){
+  var cv=$('pad'); pad.cv=cv;
+  cv.addEventListener('pointerdown',function(e){
+    if(e.pointerType==='pen') pad.penSeen=true;
+    if(pad.penSeen&&e.pointerType==='touch') return;
+    if(!pad.ctx||e.button>0) return;
+    if(pad.id!==null){
+      if(e.pointerType==='pen'&&pad.curType==='touch'){ pad.cur=null; pad.id=null; redrawPad(); }  /* 손바닥이 먼저 닿은 획은 버림 */
+      else return;
+    }
+    e.preventDefault();
+    pad.id=e.pointerId; pad.curType=e.pointerType;
+    try{ cv.setPointerCapture(e.pointerId); }catch(_){}
+    pad.rect=cv.getBoundingClientRect();
+    begin(e.clientX-pad.rect.left,e.clientY-pad.rect.top);
+  });
+  cv.addEventListener('pointermove',function(e){
+    if(e.pointerId!==pad.id) return;
+    e.preventDefault();
+    var list=(e.getCoalescedEvents&&e.getCoalescedEvents())||[]; if(!list.length) list=[e];
+    for(var i=0;i<list.length;i++) extend(list[i].clientX-pad.rect.left,list[i].clientY-pad.rect.top);
+  });
+  function up(e){ if(e.pointerId!==pad.id) return; pad.id=null; finish(); }
+  cv.addEventListener('pointerup',up); cv.addEventListener('pointercancel',up); cv.addEventListener('lostpointercapture',up);
+  cv.addEventListener('contextmenu',function(e){ e.preventDefault(); });
+
+  $('swatches').innerHTML=COLORS.map(function(c,i){ return '<button type="button" class="sw" data-color="'+c+'" style="--sw:'+c+'" aria-label="'+COLOR_NAMES[i]+'"></button>'; }).join('');
+  $('sizes').innerHTML=SIZES.map(function(s,i){ var d=[6,11,18][i]; return '<button type="button" class="sz" data-size="'+i+'" aria-label="'+SIZE_NAMES[i]+'"><i style="width:'+d+'px;height:'+d+'px"></i></button>'; }).join('');
+  $('eraser').addEventListener('click',function(){ pad.erase=!pad.erase; renderTools(); });
+  $('undo').addEventListener('click',function(){ if(!S.strokes.length) return; S.strokes.pop(); redrawPad(); changed(); });
+  $('clearPad').addEventListener('click',function(){
+    if(!S.strokes.length) return;
+    if(!armed(this,'한 번 더 누르면 지워져요')) return;
+    S.strokes=[]; redrawPad(); changed(); toast('그림을 모두 지웠어요.');
+  });
+  if(window.ResizeObserver) new ResizeObserver(function(){ padResize(); }).observe(cv);
+  window.addEventListener('resize',padResize);
+}
+function renderTools(){
+  qsa('.sw').forEach(function(b){ b.setAttribute('aria-pressed',String(!pad.erase&&b.getAttribute('data-color')===pad.color)); });
+  qsa('.sz').forEach(function(b){ b.setAttribute('aria-pressed',String(!pad.erase&&+b.getAttribute('data-size')===pad.size)); });
+  $('eraser').setAttribute('aria-pressed',String(pad.erase));
+}
+function hasDrawing(){ return S.strokes.some(function(s){ return !s.e; }); }
+function imageSource(){
+  var p=!!S.photo, d=hasDrawing();
+  if(S.imgMode==='draw') return d?'draw':(p?'photo':'');
+  return p?'photo':(d?'draw':'');
+}
+function drawingCanvas(){
+  var w=1200,h=900, layer=document.createElement('canvas'); layer.width=w; layer.height=h;
+  var lc=layer.getContext('2d'); S.strokes.forEach(function(s){ drawStroke(lc,s,w,h); });
+  var out=document.createElement('canvas'); out.width=w; out.height=h;
+  var oc=out.getContext('2d'); oc.fillStyle='#ffffff'; oc.fillRect(0,0,w,h); oc.drawImage(layer,0,0);
+  return out;
+}
+
+/* ---------- 빈칸 확인 ---------- */
+function missing(){
+  var m=[];
+  DILEMMAS.forEach(function(d,i){ var st=S.d[d.id];
+    if(!st.pick) m.push([1,'딜레마 상황 '+(i+1)+' 고르기']);
+    if(!st.why.trim()) m.push([1,'딜레마 상황 '+(i+1)+' 선택한 이유']); });
+  if(S.values.length<3) m.push([2,'핵심 가치 '+(3-S.values.length)+'개 더 고르기']);
+  S.values.forEach(function(v,i){ if(!v.story.trim()) m.push([2,'핵심 가치 '+(i+1)+' ‘'+v.name+'’ 경험']); });
+  if(!imageSource()) m.push([3,'행복한 삶 이미지']);
+  if(!S.imgNote.trim()) m.push([3,'이미지에 담긴 나의 행복한 삶']);
+  if(!S.learn.trim()) m.push([4,'배우고 느낀 점']);
+  if(!S.act.trim()) m.push([4,'실천할 한 가지']);
+  if(!happyClean()) m.push([4,'“내가 생각하는 행복은 ___ 이다.”']);
+  return m;
+}
+
+/* ---------- 글 요약 ---------- */
+function summaryText(){
+  var L=[], w=who();
+  L.push('[행복한 삶을 위한 가치관 정립하기]'+(w?' '+w:''),'');
+  L.push('■ 활동1. 내 삶의 우선순위 밸런스 게임');
+  DILEMMAS.forEach(function(d){ var st=S.d[d.id];
+    L.push('· '+d.a+' vs. '+d.b+' → 나의 선택: '+(pickName(d,st.pick)||'-'));
+    L.push('  선택한 이유: '+(st.why.trim()||'-')); });
+  BONUS.forEach(function(d){ var st=S.d[d.id]; if(!st.pick) return;
+    L.push('· (더 해 보기) '+d.a+' vs. '+d.b+' → '+pickName(d,st.pick)+(st.why.trim()?' / '+st.why.trim():'')); });
+  L.push('','■ 활동2. 나의 핵심 가치');
+  for(var i=0;i<3;i++){ var v=S.values[i]; L.push((i+1)+'. '+(v?v.name+' — '+(v.story.trim()||'-'):'-')); }
+  L.push('','■ 활동3. 핵심 가치가 충족된 행복한 삶',S.imgNote.trim()||'-');
+  L.push('','■ 배우고 느낀 점',S.learn.trim()||'-','■ 실천할 한 가지',S.act.trim()||'-');
+  L.push('',happySentence());
+  return L.join('\n');
+}
+
+/* ---------- 완성 카드(캔버스) ---------- */
+var K={W:1080,P:64,paper:'#fbfbf7',grid:'#efefe9',ink:'#27272c',soft:'#5c5c66',faint:'#a0a0a8',line:'#d9d9d2',white:'#ffffff',
+  coral:'#e8766a',coralSoft:'#fde9e6',coralInk:'#b94d42',green:'#7fc283',greenSoft:'#e6f4e6',greenInk:'#3b8241',
+  blue:'#5f93d6',blueSoft:'#e4eefa',blueInk:'#376bb0',yellow:'#ecd56a',yellowSoft:'#fbf5d6',yellowInk:'#8a6f0c'};
+var FD='"Jua", "Gowun Dodum", sans-serif', FB='"Gowun Dodum", "Malgun Gothic", sans-serif';
+function wrapLines(ctx,str,maxW){
+  var lines=[];
+  String(str==null?'':str).replace(/\r/g,'').split('\n').forEach(function(para){
+    var toks=para.match(/\S+\s*/g)||[''], line='';
+    toks.forEach(function(tok){
+      if(ctx.measureText((line+tok).replace(/\s+$/,'')).width<=maxW){ line+=tok; return; }
+      if(line){ lines.push(line.replace(/\s+$/,'')); line=''; }
+      if(ctx.measureText(tok.replace(/\s+$/,'')).width>maxW){
+        var chunk=''; Array.from(tok).forEach(function(ch){
+          if(chunk&&ctx.measureText(chunk+ch).width>maxW){ lines.push(chunk); chunk=ch; } else chunk+=ch; });
+        line=chunk;
+      } else line=tok;
+    });
+    lines.push(line.replace(/\s+$/,''));
+  });
+  return lines;
+}
+function text(ctx,str,x,y,maxW,lh,color,draw,align){
+  var lines=wrapLines(ctx,str,maxW);
+  if(draw){ ctx.fillStyle=color; ctx.textAlign=align||'left'; ctx.textBaseline='middle';
+    lines.forEach(function(l,i){ ctx.fillText(l,x,y+i*lh+lh/2); }); }
+  return y+lines.length*lh;
+}
+function rr(ctx,x,y,w,h,r){ r=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+function box(ctx,x,y,w,h,fill,stroke,r){ rr(ctx,x,y,w,h,r); ctx.fillStyle=fill; ctx.fill(); if(stroke){ ctx.lineWidth=2; ctx.strokeStyle=stroke; ctx.stroke(); } }
+function withBox(ctx,x,y,w,pad,fill,stroke,r,draw,inner){
+  var h=(inner(ctx,x+pad,y+pad,w-2*pad,false)-(y+pad))+2*pad;
+  if(draw){ box(ctx,x,y,w,h,fill,stroke,r); inner(ctx,x+pad,y+pad,w-2*pad,true); }
+  return y+h;
+}
+function shape(ctx,kind,x,y,r){
+  ctx.beginPath();
+  if(kind==='d') ctx.arc(x,y+r,r,0,Math.PI*2);
+  else if(kind==='t'){ ctx.moveTo(x,y); ctx.lineTo(x+r,y+2*r); ctx.lineTo(x-r,y+2*r); }
+  else if(kind==='tl'){ ctx.moveTo(x-r,y+r); ctx.lineTo(x+r,y); ctx.lineTo(x+r,y+2*r); }
+  else { ctx.moveTo(x+r,y+r); ctx.lineTo(x-r,y); ctx.lineTo(x-r,y+2*r); }
+  ctx.closePath(); ctx.fill();
+}
+function confettiRow(ctx,cx,y){
+  var step=36, x0=cx-(CONF.length-1)*step/2;
+  CONF.forEach(function(c,i){ ctx.globalAlpha=c[2]?0.42:0.9; ctx.fillStyle=K[c[1]]; shape(ctx,c[0],x0+i*step,y,10); });
+  ctx.globalAlpha=1;
+}
+function buntingRow(ctx,y){
+  var w=36,g=5,n=Math.floor((K.W-2*K.P+g)/(w+g)), x0=(K.W-(n*(w+g)-g))/2;
+  for(var i=0;i<n;i++){ var b=BUNT[i%BUNT.length]; ctx.globalAlpha=b[1]?0.4:0.85; ctx.fillStyle=K[b[0]];
+    var x=x0+i*(w+g); ctx.beginPath(); ctx.moveTo(x+w/2,y); ctx.lineTo(x+w,y+30); ctx.lineTo(x,y+30); ctx.closePath(); ctx.fill(); }
+  ctx.globalAlpha=1;
+}
+function check(ctx,x,y,color){ ctx.save(); ctx.strokeStyle=color; ctx.lineWidth=4; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.beginPath(); ctx.moveTo(x-8,y); ctx.lineTo(x-2,y+7); ctx.lineTo(x+10,y-7); ctx.stroke(); ctx.restore(); }
+function sectionHead(ctx,label,color,y,draw){
+  if(draw){ ctx.fillStyle=color; ctx.beginPath(); ctx.arc(K.P+18,y+26,18,0,Math.PI*2); ctx.fill(); }
+  ctx.font='36px '+FD;
+  var ny=text(ctx,label,K.P+52,y,K.W-2*K.P-52,52,K.ink,draw);
+  return Math.max(ny,y+52)+16;
+}
+function pills(ctx,d,pick,x,y,draw){
+  var h=58,padX=24,cx=x;
+  [['a',d.a],['b',d.b]].forEach(function(s,i){
+    if(i===1){ ctx.font='24px '+FD; var vw=ctx.measureText('vs.').width;
+      if(draw){ ctx.fillStyle=K.faint; ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.fillText('vs.',cx+14,y+h/2); }
+      cx+=vw+28; }
+    ctx.font='30px '+FD;
+    var on=pick===s[0], tw=ctx.measureText(s[1]).width, pw=tw+padX*2+(on?30:0);
+    if(draw){
+      rr(ctx,cx,y,pw,h,h/2);
+      ctx.fillStyle=on?(s[0]==='a'?K.coralSoft:K.blueSoft):K.white; ctx.fill();
+      ctx.lineWidth=on?3:2; ctx.strokeStyle=on?(s[0]==='a'?K.coral:K.blue):K.line; ctx.stroke();
+      var tx=cx+padX; if(on){ check(ctx,tx+9,y+h/2,s[0]==='a'?K.coralInk:K.blueInk); tx+=30; }
+      ctx.fillStyle=on?K.ink:K.faint; ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.fillText(s[1],tx,y+h/2+1);
+    }
+    cx+=pw;
+  });
+  if(!pick&&draw){ ctx.font='22px '+FB; ctx.fillStyle=K.faint; ctx.textAlign='left'; ctx.fillText('(아직 고르지 않음)',cx+18,y+h/2); }
+  return y+h;
+}
+function layout(ctx,img,draw){
+  var W=K.W,P=K.P,CW=W-2*P,y;
+  if(draw){
+    var H=ctx.canvas.height; ctx.fillStyle=K.paper; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle=K.grid; ctx.lineWidth=1; ctx.beginPath();
+    for(var gx=0.5;gx<W;gx+=32){ ctx.moveTo(gx,0); ctx.lineTo(gx,H); }
+    for(var gy=0.5;gy<H;gy+=32){ ctx.moveTo(0,gy); ctx.lineTo(W,gy); }
+    ctx.stroke();
+    confettiRow(ctx,W/2,46);
+  }
+  y=98;
+  ctx.font='58px '+FD; y=text(ctx,'행복한 삶을 위한 가치관 정립하기',W/2,y,CW,74,K.ink,draw,'center');
+  if(who()){ ctx.font='28px '+FB; y=text(ctx,who(),W/2,y+4,CW,40,K.soft,draw,'center'); }
+  y+=34;
+
+  y=sectionHead(ctx,'활동1. 내 삶의 우선순위 밸런스 게임',K.coral,y,draw);
+  DILEMMAS.forEach(function(d){
+    var st=S.d[d.id];
+    y=withBox(ctx,P,y,CW,28,K.white,K.line,34,draw,function(c,ix,iy,iw,dr){
+      c.font='21px '+FB; var yy=text(c,d.tag,ix,iy,iw,30,K.coralInk,dr);
+      yy=pills(c,d,st.pick,ix,yy+6,dr)+14;
+      c.font='24px '+FB; return text(c,'선택한 이유: '+(st.why.trim()||'—'),ix,yy,iw,38,K.ink,dr);
+    })+16;
+  });
+  var bon=BONUS.filter(function(d){ return S.d[d.id].pick; });
+  if(bon.length){
+    y=withBox(ctx,P,y,CW,26,K.white,K.line,30,draw,function(c,ix,iy,iw,dr){
+      c.font='21px '+FB; var yy=text(c,'더 해 본 밸런스 게임',ix,iy,iw,30,K.coralInk,dr);
+      bon.forEach(function(d){ var st=S.d[d.id];
+        c.font='26px '+FD; yy=text(c,d.a+' vs. '+d.b+'  →  '+pickName(d,st.pick),ix,yy+8,iw,38,K.ink,dr);
+        if(st.why.trim()){ c.font='22px '+FB; yy=text(c,st.why.trim(),ix,yy,iw,34,K.soft,dr); } });
+      return yy;
+    })+16;
+  }
+  y+=26;
+
+  y=sectionHead(ctx,'활동2. 자기 존중을 위한 나의 핵심 가치',K.green,y,draw);
+  (function(){
+    var gap=20, cw=(CW-2*gap)/3, pd=24;
+    function col(c,i,x,yy,w,dr){
+      var v=S.values[i];
+      c.font='20px '+FB; yy=text(c,'핵심 가치 '+(i+1),x,yy,w,28,K.greenInk,dr);
+      c.font='36px '+FD; yy=text(c,v?v.name:'—',x,yy+2,w,48,K.ink,dr)+8;
+      c.font='21px '+FB; return text(c,v?(v.story.trim()||'—'):'',x,yy,w,32,K.soft,dr);
+    }
+    var hs=[0,1,2].map(function(i){ return col(ctx,i,P+pd,y+pd,cw-2*pd,false)-(y+pd); });
+    var h=Math.max(150,Math.max.apply(null,hs))+2*pd;
+    if(draw) for(var i=0;i<3;i++){ var x=P+i*(cw+gap); box(ctx,x,y,cw,h,K.white,K.line,30); col(ctx,i,x+pd,y+pd,cw-2*pd,true); }
+    y+=h;
+  })();
+  y+=42;
+
+  y=sectionHead(ctx,'활동3. 핵심 가치가 충족된 행복한 삶',K.blue,y,draw);
+  y=withBox(ctx,P,y,CW,28,K.white,K.line,34,draw,function(c,ix,iy,iw,dr){
+    var yy=iy;
+    if(img){
+      var w0=img.naturalWidth||img.width, h0=img.naturalHeight||img.height, k=Math.min(iw/w0,560/h0), dw=w0*k, dh=h0*k, dx=ix+(iw-dw)/2;
+      if(dr){ c.save(); rr(c,dx,yy,dw,dh,20); c.clip(); c.drawImage(img,dx,yy,dw,dh); c.restore(); rr(c,dx,yy,dw,dh,20); c.lineWidth=2; c.strokeStyle=K.line; c.stroke(); }
+      yy+=dh+22;
+    } else { c.font='22px '+FB; yy=text(c,'(이미지 없음)',ix+iw/2,yy,iw,40,K.faint,dr,'center')+10; }
+    c.font='20px '+FB; yy=text(c,'이 이미지에 담긴 나의 행복한 삶',ix,yy,iw,30,K.blueInk,dr);
+    c.font='24px '+FB; return text(c,S.imgNote.trim()||'—',ix,yy+4,iw,38,K.ink,dr);
+  });
+  y+=42;
+
+  y=sectionHead(ctx,'오늘의 배우고 느낀 점, 실천 사항',K.yellow,y,draw);
+  y=withBox(ctx,P,y,CW,28,K.white,K.line,34,draw,function(c,ix,iy,iw,dr){
+    c.font='20px '+FB; var yy=text(c,'배우고 느낀 점',ix,iy,iw,30,K.yellowInk,dr);
+    c.font='24px '+FB; yy=text(c,S.learn.trim()||'—',ix,yy+4,iw,38,K.ink,dr)+18;
+    if(dr){ c.save(); c.strokeStyle=K.line; c.lineWidth=2; c.setLineDash([6,8]); c.beginPath(); c.moveTo(ix,yy); c.lineTo(ix+iw,yy); c.stroke(); c.restore(); }
+    yy+=18;
+    c.font='20px '+FB; yy=text(c,'실천할 한 가지',ix,yy,iw,30,K.yellowInk,dr);
+    c.font='24px '+FB; return text(c,S.act.trim()||'—',ix,yy+4,iw,38,K.ink,dr);
+  });
+  y+=30;
+
+  y=withBox(ctx,P,y,CW,32,K.yellowSoft,K.yellow,34,draw,function(c,ix,iy,iw,dr){
+    c.font='40px '+FD; return text(c,happySentence(),ix+iw/2,iy,iw,60,K.ink,dr,'center');
+  });
+  y+=40;
+  if(draw) buntingRow(ctx,y);
+  y+=52;
+  ctx.font='22px '+FB; y=text(ctx,dateStr(),W/2,y,CW,30,K.faint,draw,'center');
+  return y+34;
+}
+function dateStr(){ var d=new Date(); return d.getFullYear()+'. '+(d.getMonth()+1)+'. '+d.getDate()+'.'; }
+function renderCard(img){
+  var c=document.createElement('canvas'); c.width=K.W; c.height=10;
+  var h=layout(c.getContext('2d'),img,false);
+  c.height=Math.ceil(h);
+  layout(c.getContext('2d'),img,true);
+  return c;
+}
+function fontsReady(str){
+  if(!document.fonts||!document.fonts.load) return Promise.resolve();
+  var all=Promise.all([document.fonts.load('40px "Jua"',str),document.fonts.load('24px "Gowun Dodum"',str)]).catch(function(){});
+  return Promise.race([all,new Promise(function(r){ setTimeout(r,3500); })]);
+}
+function loadImg(src){ return new Promise(function(res,rej){ var i=new Image(); i.onload=function(){ res(i); }; i.onerror=rej; i.src=src; }); }
+function buildCard(){
+  var src=imageSource();
+  var imgP=src==='photo'?loadImg(S.photo):Promise.resolve(src==='draw'?drawingCanvas():null);
+  var labels='행복한 삶을 위한 가치관 정립하기 활동1. 내 삶의 우선순위 밸런스 게임 활동2. 자기 존중을 위한 나의 핵심 가치 활동3. 핵심 가치가 충족된 행복한 삶 오늘의 배우고 느낀 점, 실천 사항 선택한 이유: 핵심 가치 0123456789 이 이미지에 담긴 나의 행복한 삶 더 해 본 밸런스 게임 실천할 한 가지 (아직 고르지 않음)(이미지 없음)—vs.→“”';
+  return Promise.all([imgP.catch(function(){ return null; }),fontsReady(labels+summaryText()+dateStr())]).then(function(r){ return renderCard(r[0]); });
+}
+
+/* ---------- 완성 단계 ---------- */
+var cardSeq=0, lastCard=null;
+function renderDone(){
+  var m=missing(), box=$('missingBox'); box.hidden=false;
+  if(m.length){
+    box.className='missing';
+    box.innerHTML='<p class="mb-title">아직 비어 있는 곳이 '+m.length+'군데 있어요</p><ul>'+m.map(function(x){
+      return '<li><span>'+esc(x[1])+'</span><button type="button" class="link" data-go="'+x[0]+'">쓰러 가기</button></li>'; }).join('')+
+      '</ul><p class="mb-foot">비어 있어도 카드는 저장할 수 있어요.</p>';
+  } else { box.className='missing ok'; box.innerHTML='<p class="mb-title">모든 칸을 다 채웠어요!</p>'; }
+  var seq=++cardSeq, pv=$('cardPreview');
+  pv.innerHTML='<p class="muted">카드를 만들고 있어요…</p>'; $('saveImg').disabled=true; lastCard=null;
+  buildCard().then(function(c){
+    if(seq!==cardSeq) return;
+    lastCard=c;
+    var img=new Image(); img.alt='나의 가치관 카드 미리보기'; img.src=c.toDataURL('image/png');
+    pv.innerHTML=''; pv.appendChild(img); $('saveImg').disabled=false;
+  }).catch(function(){ if(seq===cardSeq) pv.innerHTML='<p class="muted">카드를 만들지 못했어요. 다른 단계에 갔다가 다시 와 주세요.</p>'; });
+}
+function fileName(){ var w=who().replace(/[\\\/:*?"<>|\s]+/g,'_'); return '가치관카드'+(w?'_'+w:'')+'.png'; }
+function inArtifact(){ return !!(window.claude&&typeof window.claude.use==='function'); }
+var dlPromise=null;
+function getDownloads(){
+  if(!inArtifact()) return Promise.resolve(null);
+  if(!dlPromise) dlPromise=Promise.resolve().then(function(){ return window.claude.use('downloads'); }).catch(function(){ return null; });
+  return dlPromise;
+}
+function toBlob(c){ return new Promise(function(res,rej){ if(!c.toBlob) return rej(new Error('toBlob')); c.toBlob(function(b){ b?res(b):rej(new Error('blob')); },'image/png'); }); }
+function saveImage(){
+  if(!lastCard) return;
+  var btn=$('saveImg'), fname=fileName(); btn.disabled=true;
+  toBlob(lastCard).then(function(blob){
+    return getDownloads().then(function(dl){
+      if(dl) return dl.save({filename:fname,data:blob}).then(function(){ toast('카드 이미지를 저장했어요.'); },function(err){
+        if(err&&err.code==='declined') return; toast('여기서는 바로 저장이 안 돼요. 카드 이미지를 길게 눌러 저장하세요.'); });
+      if(inArtifact()){ toast('카드 이미지를 길게 눌러(컴퓨터는 오른쪽 클릭) 저장하세요.'); return; }
+      var url=URL.createObjectURL(blob), a=document.createElement('a');
+      a.href=url; a.download=fname; a.rel='noopener'; document.body.appendChild(a); a.click();
+      setTimeout(function(){ URL.revokeObjectURL(url); if(a.parentNode) a.parentNode.removeChild(a); },5000);
+      toast('카드 이미지를 내려받았어요. 보이지 않으면 카드 이미지를 길게 눌러 저장하세요.');
+    });
+  }).catch(function(){ toast('저장하지 못했어요. 카드 이미지를 길게 눌러 저장하세요.'); })
+    .then(function(){ btn.disabled=false; });
+}
+function copyText(){
+  var txt=summaryText(), fb=$('copyFallback');
+  function fallback(){
+    fb.hidden=false; fb.value=txt; autosize(fb); fb.focus(); fb.select();
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){}
+    toast(ok?'복사했어요. 패들렛 게시물에 붙여 넣으세요.':'아래 글을 길게 눌러 모두 선택한 뒤 복사하세요.');
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){ fb.hidden=true; toast('복사했어요. 패들렛 게시물에 붙여 넣으세요.'); },fallback);
+  } else fallback();
+}
+
+/* ---------- 전체 그리기 ---------- */
+function renderAll(){
+  qsa('[data-bind]').forEach(function(el){ var v=getPath(el.getAttribute('data-bind')); el.value=v==null?'':v; });
+  ALL_D.forEach(function(d){ renderPicks(d.id); });
+  $('bonusBox').open=BONUS.some(function(d){ return S.d[d.id].pick||S.d[d.id].why; });
+  renderValues(); renderImage(); renderTools(); redrawPad(); updateStepper();
+  var resume=hasProgress();
+  $('startBtn').textContent=resume?'이어서 하기 →':'시작하기 →';
+  $('startBtn').setAttribute('data-go',String(resume?Math.max(1,S.last||1):1));
+  $('copyFallback').hidden=true;
+}
+
+/* ---------- 시작 ---------- */
+function init(){
+  $('ver').textContent=VERSION;
+  $('confetti').innerHTML=CONF.map(function(c){ return '<i class="cf'+(c[0]==='d'?'':' '+c[0])+(c[2]?' p':'')+'" style="--c:var(--'+c[1]+')"></i>'; }).join('');
+  var b=''; for(var i=0;i<36;i++){ var t=BUNT[i%BUNT.length]; b+='<i'+(t[1]?' class="p"':'')+' style="--c:var(--'+t[0]+')"></i>'; } $('bunting').innerHTML=b;
+  $('dilemmas').innerHTML=DILEMMAS.map(function(d){ return dilemmaHTML(d,false); }).join('');
+  $('bonus').innerHTML=BONUS.map(function(d){ return dilemmaHTML(d,true); }).join('');
+  buildStepper(); padInit();
+  if(!storageOK){ $('storeWarn').hidden=false; setSaveState('off'); } else setSaveState('saved');
+
+  document.addEventListener('click',function(e){
+    var el=e.target; if(!el||!el.closest) return;
+    var go=el.closest('[data-go]'); if(go){ goTo(parseInt(go.getAttribute('data-go'),10)); return; }
+    var pk=el.closest('.pick'); if(pk){ choose(pk.getAttribute('data-d'),pk.getAttribute('data-side')); return; }
+    var ch=el.closest('.chip'); if(ch){ var nm=ch.getAttribute('data-val'), ix=idxOf(nm); if(ix>=0) removeValue(ix,ch); else addValue(nm); return; }
+    var rm=el.closest('[data-remove]'); if(rm){ removeValue(parseInt(rm.getAttribute('data-remove'),10),rm); return; }
+    var md=el.closest('[data-mode]'); if(md){ setMode(md.getAttribute('data-mode')); return; }
+    var sw=el.closest('[data-color]'); if(sw){ pad.color=sw.getAttribute('data-color'); pad.erase=false; renderTools(); return; }
+    var sz=el.closest('[data-size]'); if(sz){ pad.size=+sz.getAttribute('data-size'); pad.erase=false; renderTools(); return; }
+  });
+  document.addEventListener('input',function(e){
+    var t=e.target, p=t.getAttribute&&t.getAttribute('data-bind');
+    if(p){ setPath(p,t.value); changed(); }
+    var si=t.getAttribute&&t.getAttribute('data-story');
+    if(si!==null&&si!==undefined){ var v=S.values[+si]; if(v){ v.story=t.value; changed(); } }
+    if(t.tagName==='TEXTAREA') autosize(t);
+  });
+  $('addCustom').addEventListener('click',addCustom);
+  $('customVal').addEventListener('keydown',function(e){ if(e.key==='Enter'&&!e.isComposing&&e.keyCode!==229){ e.preventDefault(); addCustom(); } });
+  $('photoInput').addEventListener('change',function(){ var f=this.files&&this.files[0]; processPhoto(f); this.value=''; });
+  $('photoRemove').addEventListener('click',function(){ if(!armed(this,'한 번 더 누르면 빠져요')) return; S.photo=''; renderImage(); changed(); });
+  $('saveImg').addEventListener('click',saveImage);
+  $('copyText').addEventListener('click',copyText);
+  $('resetAll').addEventListener('click',function(){
+    if(!armed(this,'한 번 더 누르면 모두 지워져요')) return;
+    S=defaults(); saveNow(); renderAll(); goTo(0); toast('모두 지웠어요. 새로 시작해요.');
+  });
+  document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='hidden'&&saveTimer) saveNow(); });
+  window.addEventListener('pagehide',function(){ if(saveTimer) saveNow(); });
+
+  renderAll();
+  goTo(S.step,true);
+  if(inArtifact()) setTimeout(getDownloads,600);
+}
+/* 오류가 나도 화면을 지우지 않고 알림만 띄움 (패들렛 미리보기 대비) */
+window.addEventListener('error',function(){ try{ toast('잠깐 문제가 생겼어요. 적은 내용은 그대로 있어요.'); }catch(_){} });
+window.addEventListener('unhandledrejection',function(){ try{ toast('잠깐 문제가 생겼어요. 적은 내용은 그대로 있어요.'); }catch(_){} });
+init();
+})();
+</script>
+
+</body>
+</html>
